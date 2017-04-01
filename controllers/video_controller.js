@@ -9,7 +9,7 @@ qiniu.conf.ACCESS_KEY = 'ta3AWG_OV18vbalFzxX2jPEMnUCNjhZXIDofrWZO';
 qiniu.conf.SECRET_KEY = 'gnnyu4y0nsWgaej6xjX8-DTtnzVMca80ABqkbxam';
 
 let bucket = 'shou';//要上传的空间
-let key = 'vue.png';//上传到七牛后保存的文件名
+//let key = 'vue.png';//上传到七牛后保存的文件名
 
 let video = {
 
@@ -28,11 +28,10 @@ let video = {
 
     //构建上传策略函数，设置回调的url以及需要回调给业务服务器的数据
     upToken: function (req, res, next) {
-        let putPolicy = new qiniu.rs.PutPolicy(bucket + ":" + key);
+        let putPolicy = new qiniu.rs.PutPolicy(bucket);
         //putPolicy.callbackUrl = 'http://your.domain.com/callback';
         //putPolicy.callbackBody = 'filename=$(fname)&filesize=$(fsize)';
         res.json({"uptoken": putPolicy.token()});
-        console.log(putPolicy.token());
         return putPolicy.token();
     },
 
