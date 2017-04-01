@@ -12,7 +12,7 @@
 <body>
 <div class="page-index" id="app">
     <header class="bar bar-nav">
-        <h1 class="title">SHOU_VIDEO</h1>
+        <h1 class="title">海大视频小站</h1>
     </header>
 
     <div class="content infinite-scroll infinite-scroll-bottom" data-distance="50">
@@ -21,7 +21,7 @@
             <div class="card-content">
                 <div class="card-content-inner" id="videoWrap">
                     <p class="color-gray">发表于 2015/01/15</p>
-                    <video src="/videos/0415.mp4" controls="controls" :width="videoWidth"></video>
+                    <video :src="item.videoUrl" controls="controls" :width="videoWidth"></video>
                 </div>
             </div>
             <div class="card-footer">
@@ -30,9 +30,9 @@
             </div>
         </div>
 
-        <div class="infinite-scroll-preloader">
-            <div class="preloader"></div>
-        </div>
+        <!--<div class="infinite-scroll-preloader">-->
+            <!--<div class="preloader"></div>-->
+        <!--</div>-->
     </div>
 </div>
 <script type='text/javascript' src='http://g.alicdn.com/sj/lib/zepto/zepto.min.js' charset='utf-8'></script>

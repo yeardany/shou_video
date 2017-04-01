@@ -9,6 +9,10 @@ qiniu.conf.ACCESS_KEY = 'ta3AWG_OV18vbalFzxX2jPEMnUCNjhZXIDofrWZO';
 qiniu.conf.SECRET_KEY = 'gnnyu4y0nsWgaej6xjX8-DTtnzVMca80ABqkbxam';
 
 let bucket = 'shou';//要上传的空间
+let videoData = {
+    videoName: '',
+    videoUrl: ''
+};
 //let key = 'vue.png';//上传到七牛后保存的文件名
 
 let video = {
@@ -19,7 +23,7 @@ let video = {
                 console.log(err);
                 res.send(err).end();
             } else {
-                console.log("查询用户表成功");
+                //console.log("查询视频列表成功");
                 //console.log(result);
                 res.send(result);
             }
@@ -47,14 +51,44 @@ let video = {
                 let policy = new qiniu.rs.GetPolicy();
                 //生成下载链接url
                 let downloadUrl = policy.makeRequest(url);
-                //打印下载的url
-                res.send(downloadUrl);
+                //res.send(downloadUrl);
+                videoData.videoUrl = downloadUrl;
+                video.addVideo();
             } else {
                 // 上传失败， 处理返回代码
                 console.log(err);
             }
         });
+    },
+
+    addVideoName: function (req, res, next) {
+        let videoName = req.body.videoname || '';
+        videoData.videoName = videoName;
+    },
+
+    addVideo: function () {
+        let videoName = videoData.videoName || '';
+        let videoUrl = videoData.videoUrl || '';
+
+        let newVideo = new videoModels({
+            videoName: videoName,
+            videoUrl: videoUrl
+        });
+
+        newVideo.save(function (err) {
+            if (err) {
+                console.log(err);
+                res.send(err).end();
+            } else {
+                console.log("保存视频成功");
+                res.send({
+                    msg: "保存视频成功",
+                    code: "200"
+                }).end();
+            }
+        })
     }
+
 };
 
 module.exports = video;

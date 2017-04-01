@@ -5,25 +5,21 @@ let userModel = require('../modles/users_model');
 
 module.exports = {
 
-    findAllUsers: function(req,res,next){
-
-        userModel.find({},function(err,result){
-
-            if(err){
+    findAllUsers: function (req, res, next) {
+        userModel.find({}, function (err, result) {
+            if (err) {
 
                 console.log(err);
                 res.send(err).end();
-            }else{
-
+            } else {
                 console.log("查询用户表成功");
                 console.log(result);
                 res.send(result).end();
             }
         })
-
     },
-    insertOneUser: function (req,res,next) {
 
+    insertOneUser: function (req, res, next) {
         var username = req.body.username || '';
         var pwd = req.body.password || '';
 
@@ -33,19 +29,19 @@ module.exports = {
             passWord: pwd
         });
 
-        newUser.save(function(err){
-
-            if(err){
+        newUser.save(function (err) {
+            if (err) {
                 console.log(err);
                 res.send(err).end();
-            }else {
+            } else {
                 console.log("保存用户成功");
                 res.send({
-                    msg : "保存用户成功",
-                    code : "200"
+                    msg: "保存用户成功",
+                    code: "200"
                 }).end();
             }
-
         })
-    }
+    },
+
+
 };
