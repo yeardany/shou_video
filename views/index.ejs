@@ -1,11 +1,42 @@
 <!DOCTYPE html>
 <html>
-  <head>
-    <title><%= title %></title>
-    <link rel='stylesheet' href='/stylesheets/style.css' />
-  </head>
-  <body>
-    <h1><%= title %></h1>
-    <p>Welcome to <%= title %></p>
-  </body>
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="initial-scale=1, maximum-scale=1">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black">
+
+    <link rel="stylesheet" href="//g.alicdn.com/msui/sm/0.6.2/css/sm.min.css">
+</head>
+<body>
+<div class="page-index" id="app">
+    <header class="bar bar-nav">
+        <h1 class="title">SHOU_VIDEO</h1>
+    </header>
+
+    <div class="content infinite-scroll infinite-scroll-bottom" data-distance="50">
+        <div class="card" v-for="item in videos">
+            <div valign="bottom" class="card-header color-white no-border">{{item.videoName}}</div>
+            <div class="card-content">
+                <div class="card-content-inner" id="videoWrap">
+                    <p class="color-gray">发表于 2015/01/15</p>
+                    <video src="/videos/0415.mp4" controls="controls" :width="videoWidth"></video>
+                </div>
+            </div>
+            <div class="card-footer">
+                <a href="#" class="link">赞</a>
+                <a href="#" class="link">更多</a>
+            </div>
+        </div>
+
+        <div class="infinite-scroll-preloader">
+            <div class="preloader"></div>
+        </div>
+    </div>
+</div>
+<script type='text/javascript' src='http://g.alicdn.com/sj/lib/zepto/zepto.min.js' charset='utf-8'></script>
+<script type='text/javascript' src='http://g.alicdn.com/msui/sm/0.6.2/js/sm.min.js' charset='utf-8'></script>
+<script src="/dist/js/a.js"></script>
+</body>
 </html>

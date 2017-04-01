@@ -8,8 +8,8 @@ var bodyParser = require('body-parser');
 var mongoose = require('mongoose');
 var MongoDB_Conf = require('./config');
 
-var index = require('./routes/index');
-var users = require('./routes/users');
+var index = require('./routes/index_routes');
+var videos = require('./routes/videos_routes');
 
 var app = express();
 mongoose.connect(MongoDB_Conf.database);
@@ -24,16 +24,16 @@ app.use(logger('dev'));
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({extended: false}));
 app.use(cookieParser());
-app.use(require('node-sass-middleware')({
-    src: path.join(__dirname, 'public'),
-    dest: path.join(__dirname, 'public'),
-    indentedSyntax: true,
-    sourceMap: true
-}));
+// app.use(require('node-sass-middleware')({
+//     src: path.join(__dirname, 'public'),
+//     dest: path.join(__dirname, 'public'),
+//     indentedSyntax: true,
+//     sourceMap: true
+// }));
 app.use(express.static(path.join(__dirname, 'public')));
 
 app.use('/', index);
-app.use('/users', users);
+app.use('/videos', videos);
 
 // catch 404 and forward to error handler
 app.use(function (req, res, next) {
