@@ -7,6 +7,7 @@ let videoController = require('../controllers/video_controller');
 
 router.post('/list', videoController.listVideos);
 router.get('/uptoken', videoController.upToken);
-router.pos('/videoname', videoController.addVideoName);
+router.post('/videoname', videoController.addVideoName);
+router.post('/videourl', videoController.addVideo);
 
 module.exports = router;

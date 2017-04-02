@@ -8,6 +8,7 @@ db.users.insert({
     passWord: '123'
 });
 db.videos.insert({
-    videoName: 'Vuejs开发教程',
-    videoUrl: 'http://www.baidu.com'
+    videoName: '',
+    videoUrl: '',
+    videoTime: ''
 });

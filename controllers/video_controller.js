@@ -11,7 +11,8 @@ qiniu.conf.SECRET_KEY = 'gnnyu4y0nsWgaej6xjX8-DTtnzVMca80ABqkbxam';
 let bucket = 'shou';//要上传的空间
 let videoData = {
     videoName: '',
-    videoUrl: ''
+    videoUrl: '',
+    videoTime: ''
 };
 //let key = 'vue.png';//上传到七牛后保存的文件名
 
@@ -51,7 +52,10 @@ let video = {
                 let policy = new qiniu.rs.GetPolicy();
                 //生成下载链接url
                 let downloadUrl = policy.makeRequest(url);
-                //res.send(downloadUrl);
+                console.log({
+                    msg: "视频地址" + downloadUrl + "获取成功",
+                    code: "200"
+                });
                 videoData.videoUrl = downloadUrl;
                 video.addVideo();
             } else {
@@ -62,18 +66,19 @@ let video = {
     },
 
     addVideoName: function (req, res, next) {
+        console.log('收到请求视频名称:' + req.body.videoname);
         let videoName = req.body.videoname || '';
         videoData.videoName = videoName;
     },
 
-    addVideo: function () {
-        let videoName = videoData.videoName || '';
-        let videoUrl = videoData.videoUrl || '';
-
-        let newVideo = new videoModels({
-            videoName: videoName,
-            videoUrl: videoUrl
-        });
+    addVideo: function (req, res, next) {
+        console.log('收到请求视频地址:' + req.body.videourl);
+        console.log('收到请求视频时间:' + req.body.videotime);
+        let videoUrl = req.body.videourl || '';
+        let videoTime = req.body.videotime || '';
+        videoData.videoUrl = videoUrl;
+        videoData.videoTime = videoTime;
+        let newVideo = new videoModels(videoData);
 
         newVideo.save(function (err) {
             if (err) {

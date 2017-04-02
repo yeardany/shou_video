@@ -20,7 +20,7 @@
             <div valign="bottom" class="card-header color-white no-border">{{item.videoName}}</div>
             <div class="card-content">
                 <div class="card-content-inner" id="videoWrap">
-                    <p class="color-gray">发表于 2015/01/15</p>
+                    <p class="color-gray">发表于 {{item.videoTime}}</p>
                     <video :src="item.videoUrl" controls="controls" :width="videoWidth"></video>
                 </div>
             </div>
@@ -31,7 +31,7 @@
         </div>
 
         <!--<div class="infinite-scroll-preloader">-->
-            <!--<div class="preloader"></div>-->
+        <!--<div class="preloader"></div>-->
         <!--</div>-->
     </div>
 </div>

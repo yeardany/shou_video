@@ -18,7 +18,7 @@ let uploader = Qiniu.uploader({
     uptoken_url: './videos/uptoken',
     get_new_uptoken: true,
     domain: 'http://on5gjg7q0.bkt.clouddn.com/',
-    max_file_size: '100mb',
+    max_file_size: '800mb',
     max_retries: 1,
     chunk_size: '10mb',
     auto_start: true,
@@ -26,13 +26,16 @@ let uploader = Qiniu.uploader({
     init: {
         'BeforeUpload': function (up, file) {
             // 每个文件上传前，处理相关的事情
-            var videoname = '';
-            var data = {
-                "videoname": videoname,
-            };
-            axios.post('/videos/videoname', data).catch(function (response) {
-                console.log(response);
-            });
+            let videoname = document.getElementById('videoname');
+            if (videoname.value === undefined || videoname.value === '' || videoname.value === null) {
+                alert('请输入文件名称');
+                location.reload();
+            } else {
+                let data = {
+                    "videoname": videoname.value,
+                };
+                axios.post('/videos/videoname', data);
+            }
         },
         'UploadProgress': function (up, file) {
             // 每个文件上传时，处理相关的事情
@@ -45,15 +48,19 @@ let uploader = Qiniu.uploader({
             let res = JSON.parse(info);
             let sourceLink = domain + "/" + res.key;
             console.log(sourceLink);
-        },
-        'Error': function (up, err, errTip) {
-            //上传出错时，处理相关的事情
-            console.log()
-        },
-        'UploadComplete': function () {
-            //队列文件处理完毕后，处理相关的事情
-            alert("上传完毕！");
-        },
+            if (sourceLink.length > 0) {
+                var d = new Date();
+                var time = d.getFullYear() + "-" + (d.getMonth() + 1) + "-" + d.getDate();
+                let data = {
+                    "videourl": sourceLink,
+                    "videotime": time
+                };
+                axios.post('/videos/videourl', data).then(function (res) {
+                    alert(res.data.msg);
+                    location.reload();
+                });
+            }
+        }
     }
 });
 

@@ -10,6 +10,10 @@ let videoSchema = new mongoose.Schema({
     videoUrl: {
         type: String,
         require: true
+    },
+    videoTime: {
+        type: String,
+        require: true
     }
 });
 
