@@ -9625,7 +9625,17 @@ let app = new Vue({
     el: "#app",
     data: {
         percentage: 0,
-        speed: ''
+        speed: '',
+        users: []
+    },
+    mounted: function () {
+        let self = this;
+        getUser:  {
+            axios.get('/users/getuser').then(function (res) {
+                //console.log(JSON.stringify(res.data));
+                self.users = res.data;
+            });
+        }
     }
 });
 

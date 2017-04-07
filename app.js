@@ -10,6 +10,7 @@ var MongoDB_Conf = require('./config');
 
 var index = require('./routes/index_routes');
 var videos = require('./routes/videos_routes');
+var users = require('./routes/users_routes');
 
 var app = express();
 mongoose.connect(MongoDB_Conf.database);
@@ -34,6 +35,7 @@ app.use(express.static(path.join(__dirname, 'public')));
 
 app.use('/', index);
 app.use('/videos', videos);
+app.use('/users', users);
 
 // catch 404 and forward to error handler
 app.use(function (req, res, next) {
