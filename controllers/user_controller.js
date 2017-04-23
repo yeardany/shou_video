@@ -8,7 +8,6 @@ module.exports = {
     findAllUsers: function (req, res, next) {
         userModel.find({}, function (err, result) {
             if (err) {
-
                 console.log(err);
                 res.send(err).end();
             } else {
@@ -19,14 +18,31 @@ module.exports = {
         })
     },
 
+    findOneUser: function (req, res, next) {
+        let username = req.body.username || '';
+        let password = req.body.password || '';
+        userModel.findOne({"userName": username, "passWord": password}, function (err, result) {
+            if (err) {
+                console.log(err);
+                res.send(err).end();
+            } else {
+                try {
+                    if (result.userName === username)
+                        res.json({res: '200'}).end();
+                } catch (err) {
+                    res.json({res: '400'}).end();
+                }
+            }
+        })
+    },
+
     insertOneUser: function (req, res, next) {
-        var username = req.body.username || '';
-        var pwd = req.body.password || '';
+        let username = req.body.username || '';
+        let password = req.body.password || '';
 
-        var newUser = new userModel({
-
+        let newUser = new userModel({
             userName: username,
-            passWord: pwd
+            passWord: password
         });
 
         newUser.save(function (err) {
@@ -34,14 +50,9 @@ module.exports = {
                 console.log(err);
                 res.send(err).end();
             } else {
-                console.log("保存用户成功");
-                res.send({
-                    msg: "保存用户成功",
-                    code: "200"
-                }).end();
+                res.json({res: "300"}).end();
             }
         })
-    },
-
+    }
 
 };

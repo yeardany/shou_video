@@ -9645,7 +9645,7 @@ let uploader = Qiniu.uploader({
     uptoken_url: './videos/uptoken',
     get_new_uptoken: true,
     domain: 'http://on5gjg7q0.bkt.clouddn.com/',
-    max_file_size: '800mb',
+    max_file_size: '6144mb',
     max_retries: 1,
     chunk_size: '10mb',
     auto_start: true,
