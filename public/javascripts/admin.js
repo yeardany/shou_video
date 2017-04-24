@@ -11,15 +11,15 @@ let app = new Vue({
         speed: '',
         users: []
     },
-    mounted: function () {
-        let self = this;
-        getUser:  {
-            axios.get('/users/getuser').then(function (res) {
-                //console.log(JSON.stringify(res.data));
-                self.users = res.data;
-            });
-        }
-    }
+    // mounted: function () {
+    //     let self = this;
+    //     getUser:  {
+    //         axios.get('/users/getuser').then(function (res) {
+    //             //console.log(JSON.stringify(res.data));
+    //             self.users = res.data;
+    //         });
+    //     }
+    // }
 });
 
 let uploader = Qiniu.uploader({

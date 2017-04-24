@@ -16,29 +16,14 @@
         .bar ~ .content-block {
             margin-top: 3rem !important;
         }
-
-        .content-block p {
-            display: inline-block;
-        }
-
-        .content-block p:first-child {
-            float: left;
-        }
-
-        .content-block p:last-child {
-            float: right;
-        }
-
-        video {
-            z-index: -1;
-        }
     </style>
 </head>
 <body>
 <div class="page-index" id="app">
     <header class="bar bar-nav">
         <h1 class="title">海大视频小站</h1>
-        <a class="icon pull-right" @click="popup">登录</a>
+        <a class="icon icon-home pull-left"></a>
+        <a class="icon icon-edit pull-right" @click="popup"></a>
     </header>
 
     <div class="content infinite-scroll infinite-scroll-bottom" data-distance="50">
@@ -59,7 +44,9 @@
 
     <div class="popup popup-about">
         <header class="bar bar-nav">
-            <h1 class="title">{{title}}</h1>
+            <a href="#" class="icon icon-left pull-left close-popup" @click="toggle"></a>
+            <a href="#" class="icon icon-edit pull-right" @click="toggle" v-show="status==='login'"></a>
+            <h1 class="title">登录/注册</h1>
         </header>
         <div class="content-block">
             <div class="list-block inset">
@@ -100,10 +87,6 @@
                            v-show="status==='register'">注册</a>
                     </div>
                 </div>
-            </div>
-            <div class="content-block">
-                <p v-show="status==='login'"><a href="#" @click="toggle">没有账号？点击注册</a></p>
-                <p><a href="#" class="close-popup" @click="toggle">关闭</a></p>
             </div>
         </div>
     </div>

@@ -28,9 +28,9 @@ module.exports = {
             } else {
                 try {
                     if (result.userName === username)
-                        res.json({res: '200'}).end();
+                        res.json({'res': '200'}).end();
                 } catch (err) {
-                    res.json({res: '400'}).end();
+                    res.json({'res': '400'}).end();
                 }
             }
         })
@@ -40,6 +40,8 @@ module.exports = {
         let username = req.body.username || '';
         let password = req.body.password || '';
 
+        console.log("username:" + username + ",password:" + password);
+
         let newUser = new userModel({
             userName: username,
             passWord: password
@@ -48,9 +50,9 @@ module.exports = {
         newUser.save(function (err) {
             if (err) {
                 console.log(err);
-                res.send(err).end();
+                res.json({'res': '500'}).end();
             } else {
-                res.json({res: "300"}).end();
+                res.json({'res': "300"}).end();
             }
         })
     }

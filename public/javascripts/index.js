@@ -11,7 +11,6 @@ let app = new Vue({
         videoWidth: document.getElementById('videoWrap').offsetWidth - 30,
         username: '',
         password: '',
-        title: '登录',
         status: 'login',
         url: {
             'video': '/videos/list',
