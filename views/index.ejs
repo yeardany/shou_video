@@ -6,93 +6,278 @@
     <meta name="viewport" content="initial-scale=1, maximum-scale=1">
     <meta name="apple-mobile-web-app-capable" content="yes">
     <meta name="apple-mobile-web-app-status-bar-style" content="black">
-
-    <link rel="stylesheet" href="//g.alicdn.com/msui/sm/0.6.2/css/sm.min.css">
-    <style>
-        .popup {
-            background-color: #e7e7e7;
+    <link rel="stylesheet" href="/stylesheets/aui.css">
+    <style type="text/css">
+        @media screen and (min-width: 414px) {
+            body, #footer {
+                width: 414px;
+                margin: auto;
+                border: 1px solid #eee;
+            }
         }
 
-        .bar ~ .content-block {
-            margin-top: 3rem !important;
+        .aui-bar-nav .aui-title {
+            font-family: "Microsoft YaHei", 微软雅黑, "MicrosoftJhengHei", 华文细黑, STHeiti, MingLiu
+        }
+
+        #demo {
+            width: 4rem;
+            height: 4rem;
+            position: absolute;
+            left: 50%;
+            top: 50%;
+            margin-left: -2rem;
+            margin-top: -2rem;
+            background-color: #e0e0e0;
+            border-radius: 50%;
+            line-height: 4rem;
+            text-align: center;
+            color: #212121;
+            font-size: 0.6rem;
         }
     </style>
 </head>
 <body>
-<div class="page-index" id="app">
-    <header class="bar bar-nav">
-        <h1 class="title">海大视频小站</h1>
-        <a class="icon icon-home pull-left"></a>
-        <a class="icon icon-edit pull-right" @click="popup"></a>
+<section class="aui-content" id="app">
+    <header class="aui-bar aui-bar-nav aui-bar-light">
+        <div class="aui-title">海大视频小站</div>
     </header>
-
-    <div class="content infinite-scroll infinite-scroll-bottom" data-distance="50">
-        <div class="card" v-for="item in videos">
-            <div valign="bottom" class="card-header color-white no-border">{{item.videoName}}</div>
-            <div class="card-content">
-                <div class="card-content-inner" id="videoWrap">
-                    <p class="color-gray">发表于 {{item.videoTime}}</p>
-                    <video :src="item.videoUrl" controls="controls" :width="videoWidth"></video>
-                </div>
+    <div v-show="page==='home'">
+        <div class="aui-card-list" v-for="item in videos">
+            <div class="aui-card-list-header">
+                {{item.videoName}}
             </div>
-            <div class="card-footer">
-                <a href="#" class="link">赞</a>
-                <a href="#" class="link">更多</a>
+            <div class="aui-card-list-content" id="videoWrap">
+                <video :src="item.videoUrl" controls="controls" :width="videoWidth" style="margin-left: 15px"></video>
+            </div>
+            <div class="aui-card-list-footer">
+                发表于 {{item.videoTime}}
             </div>
         </div>
     </div>
-
-    <div class="popup popup-about">
-        <header class="bar bar-nav">
-            <a href="#" class="icon icon-left pull-left close-popup" @click="toggle"></a>
-            <a href="#" class="icon icon-edit pull-right" @click="toggle" v-show="status==='login'"></a>
-            <h1 class="title">登录/注册</h1>
-        </header>
-        <div class="content-block">
-            <div class="list-block inset">
-                <ul>
-                    <li>
-                        <div class="item-content">
-                            <div class="item-media"><i class="icon icon-form-name"></i></div>
-                            <div class="item-inner">
-                                <div class="item-title label">用户名</div>
-                                <div class="item-input">
-                                    <input type="text" placeholder="请输入用户名" v-model="username">
-                                </div>
-                            </div>
+    <div v-if="page==='courses'">
+        <div id="demo">敬请期待1</div>
+    </div>
+    <div v-if="page==='person'">
+        <div id="demo">敬请期待2</div>
+        <div class="aui-content aui-margin-b-15">
+            <ul class="aui-list aui-form-list">
+                <li class="aui-list-item">
+                    <div class="aui-list-item-inner">
+                        <div class="aui-list-item-label-icon">
+                            <i class="aui-iconfont aui-icon-mobile"></i>
                         </div>
-                    </li>
-                    <li>
-                        <div class="item-content">
-                            <div class="item-media"><i class="icon icon-form-password"></i></div>
-                            <div class="item-inner">
-                                <div class="item-title label">密&nbsp&nbsp&nbsp&nbsp码</div>
-                                <div class="item-input">
-                                    <input type="password" placeholder="请输入密码" v-model="password">
-                                </div>
-                            </div>
+                        <div class="aui-list-item-label">
+                            账号
                         </div>
-                    </li>
-                </ul>
-            </div>
-            <div class="content-block">
-                <div class="row">
-                    <div class="col-50">
-                        <a href="#" class="button button-big button-fill button-danger" @click="reset">清空</a>
+                        <div class="aui-list-item-input">
+                            <input type="text" placeholder="输入账号" v-model="username">
+                        </div>
                     </div>
-                    <div class="col-50">
-                        <a href="#" class="button button-big button-fill button-success" @click="operate('login')"
-                           v-show="status==='login'">登录</a>
-                        <a href="#" class="button button-big button-fill button-success" @click="operate('register')"
-                           v-show="status==='register'">注册</a>
+                </li>
+                <li class="aui-list-item">
+                    <div class="aui-list-item-inner">
+                        <div class="aui-list-item-label-icon">
+                            <i class="aui-iconfont aui-icon-lock"></i>
+                        </div>
+                        <div class="aui-list-item-label">
+                            密码
+                        </div>
+                        <div class="aui-list-item-input">
+                            <input type="password" placeholder="输入密码" v-model="password">
+                        </div>
+                    </div>
+                </li>
+                <li class="aui-list-item">
+                    <div class="aui-list-item-inner aui-list-item-center aui-list-item-btn">
+                        <div class="aui-btn aui-btn-info aui-margin-r-5" @click="reset">清空</div>
+                        <div class="aui-btn aui-btn-danger aui-margin-l-5" @click="operate('login')">登录</div>
+                    </div>
+                </li>
+            </ul>
+        </div>
+    </div>
+    <div v-if="page==='center'">
+        <section class="aui-content" id="user-info">
+            <div class="aui-list aui-media-list aui-list-noborder aui-bg-info">
+                <div class="aui-list-item aui-list-item-middle">
+                    <div class="aui-media-list-item-inner ">
+                        <div class="aui-list-item-media" style="width:3rem;">
+                            <img src="../image/demo1.png" class="aui-img-round">
+                        </div>
+                        <div class="aui-list-item-inner aui-list-item-arrow">
+                            <div class="aui-list-item-text text-white aui-font-size-18">38dd4ef6d</div>
+                            <div class="aui-list-item-text text-white">
+                                <div><i class="aui-iconfont aui-icon-mobile aui-font-size-14"></i>152****0989</div>
+                            </div>
+                        </div>
                     </div>
                 </div>
             </div>
-        </div>
+        </section>
+        <section class="aui-content aui-grid aui-margin-b-15">
+            <div class="aui-row">
+                <div class="aui-col-xs-4 aui-border-r">
+                    <big class="aui-text-warning">0.00
+                        <small> 元</small>
+                    </big>
+                    <div class="aui-gird-lable aui-font-size-12">余额</div>
+                </div>
+                <div class="aui-col-xs-4 aui-border-r">
+                    <big class="aui-text-danger">0.00
+                        <small> 个</small>
+                    </big>
+                    <div class="aui-gird-lable aui-font-size-12">优惠</div>
+                </div>
+                <div class="aui-col-xs-4">
+                    <big class="aui-text-success">0.00
+                        <small> 分</small>
+                    </big>
+                    <div class="aui-gird-lable aui-font-size-12">积分</div>
+                </div>
+            </div>
+        </section>
+        <section class="aui-content">
+            <ul class="aui-list aui-list-in aui-margin-b-15">
+                <li class="aui-list-item">
+                    <div class="aui-list-item-label-icon">
+                        <i class="aui-iconfont aui-icon-location aui-text-info"></i>
+                    </div>
+                    <div class="aui-list-item-inner aui-list-item-arrow">
+                        <div class="aui-list-item-title">收货地址</div>
+                    </div>
+                </li>
+                <li class="aui-list-item">
+                    <div class="aui-list-item-label-icon">
+                        <i class="aui-iconfont aui-icon-like aui-text-danger"></i>
+                    </div>
+                    <div class="aui-list-item-inner aui-list-item-arrow">
+                        <div class="aui-list-item-title">我的收藏</div>
+                    </div>
+                </li>
+                <li class="aui-list-item">
+                    <div class="aui-list-item-label-icon">
+                        <i class="aui-iconfont aui-icon-image aui-text-info"></i>
+                    </div>
+                    <div class="aui-list-item-inner aui-list-item-arrow">
+                        <div class="aui-list-item-title">美食相册</div>
+                    </div>
+                </li>
+            </ul>
+            <ul class="aui-list aui-list-in">
+                <li class="aui-list-item">
+                    <div class="aui-list-item-label-icon">
+                        <i class="aui-iconfont aui-icon-cart aui-text-info"></i>
+                    </div>
+                    <div class="aui-list-item-inner aui-list-item-arrow">
+                        <div class="aui-list-item-title">积分商城</div>
+                        <div class="aui-list-item-right">0元好物在这里</div>
+                    </div>
+                </li>
+                <li class="aui-list-item">
+                    <div class="aui-list-item-label-icon">
+                        <i class="aui-iconfont aui-icon-cert aui-text-warning"></i>
+                    </div>
+                    <div class="aui-list-item-inner aui-list-item-arrow">
+                        <div class="aui-list-item-title">会员卡</div>
+                        <div class="aui-list-item-right">未开通</div>
+                    </div>
+                </li>
+            </ul>
+        </section>
     </div>
-</div>
-<script type='text/javascript' src='http://g.alicdn.com/sj/lib/zepto/zepto.min.js' charset='utf-8'></script>
-<script type='text/javascript' src='http://g.alicdn.com/msui/sm/0.6.2/js/sm.min.js' charset='utf-8'></script>
+
+
+    <!--<header class="bar bar-nav">-->
+    <!--<h1 class="title">海大视频小站</h1>-->
+    <!--<a class="icon icon-home pull-left"></a>-->
+    <!--<a class="icon icon-edit pull-right" @click="popup"></a>-->
+    <!--</header>-->
+
+    <!--<div class="content infinite-scroll infinite-scroll-bottom" data-distance="50">-->
+    <!--<div class="card">-->
+    <!--<div valign="bottom" class="card-header color-white no-border"></div>-->
+    <!--<div class="card-content">-->
+    <!--<div class="card-content-inner">-->
+    <!--<p class="color-gray"></p>-->
+
+    <!--</div>-->
+    <!--</div>-->
+    <!--<div class="card-footer">-->
+    <!--<a href="#" class="link">赞</a>-->
+    <!--<a href="#" class="link">更多</a>-->
+    <!--</div>-->
+    <!--</div>-->
+    <!--</div>-->
+
+
+    <!--<div class="popup popup-about">-->
+    <!--<header class="bar bar-nav">-->
+    <!--<a href="#" class="icon icon-left pull-left close-popup" @click="toggle"></a>-->
+    <!--<a href="#" class="icon icon-edit pull-right" @click="toggle" v-show="status==='login'"></a>-->
+    <!--<h1 class="title">登录/注册</h1>-->
+    <!--</header>-->
+    <!--<div class="content-block">-->
+    <!--<div class="list-block inset">-->
+    <!--<ul>-->
+    <!--<li>-->
+    <!--<div class="item-content">-->
+    <!--<div class="item-media"><i class="icon icon-form-name"></i></div>-->
+    <!--<div class="item-inner">-->
+    <!--<div class="item-title label">用户名</div>-->
+    <!--<div class="item-input">-->
+    <!--<input type="text" placeholder="请输入用户名" v-model="username">-->
+    <!--</div>-->
+    <!--</div>-->
+    <!--</div>-->
+    <!--</li>-->
+    <!--<li>-->
+    <!--<div class="item-content">-->
+    <!--<div class="item-media"><i class="icon icon-form-password"></i></div>-->
+    <!--<div class="item-inner">-->
+    <!--<div class="item-title label">密&nbsp&nbsp&nbsp&nbsp码</div>-->
+    <!--<div class="item-input">-->
+    <!--<input type="password" placeholder="请输入密码" v-model="password">-->
+    <!--</div>-->
+    <!--</div>-->
+    <!--</div>-->
+    <!--</li>-->
+    <!--</ul>-->
+    <!--</div>-->
+    <!--<div class="content-block">-->
+    <!--<div class="row">-->
+    <!--<div class="col-50">-->
+    <!--<a href="#" class="button button-big button-fill button-danger" @click="reset">清空</a>-->
+    <!--</div>-->
+    <!--<div class="col-50">-->
+    <!--<a href="#" class="button button-big button-fill button-success" @click="operate('login')"-->
+    <!--v-show="status==='login'">登录</a>-->
+    <!--<a href="#" class="button button-big button-fill button-success" @click="operate('register')"-->
+    <!--v-show="status==='register'">注册</a>-->
+    <!--</div>-->
+    <!--</div>-->
+    <!--</div>-->
+    <!--</div>-->
+    <!--</div>-->
+
+
+</section>
+<footer class="aui-bar aui-bar-tab" id="footer">
+    <div class="aui-bar-tab-item aui-active" tapmode>
+        <i class="aui-iconfont aui-icon-home"></i>
+        <div class="aui-bar-tab-label">首页</div>
+    </div>
+    <div class="aui-bar-tab-item" tapmode>
+        <i class="aui-iconfont aui-icon-calendar"></i>
+        <div class="aui-bar-tab-label">课程</div>
+    </div>
+    <div class="aui-bar-tab-item" tapmode>
+        <div class="aui-dot"></div>
+        <i class="aui-iconfont aui-icon-my"></i>
+        <div class="aui-bar-tab-label">我的</div>
+    </div>
+</footer>
+<script type="text/javascript" src="/lib/api.js"></script>
 <script src="/dist/js/a.js"></script>
 </body>
 </html>

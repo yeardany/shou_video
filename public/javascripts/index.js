@@ -2,8 +2,13 @@
  * Created by SYM on 2017/3/20.
  */
 "use strict";
+// import '../stylesheets/aui.less';
+let jq = require("expose-loader?$!jquery");
 let Vue = require('../../node_modules/vue/dist/vue');
+let auitab = require('../../public/lib/aui-tab');
+let auitoast = require('../../public/lib/aui-toast');
 let axios = require('../../node_modules/axios/dist/axios.min');
+
 let app = new Vue({
     el: "#app",
     data: {
@@ -16,9 +21,12 @@ let app = new Vue({
             'video': '/videos/list',
             'login': '/users/checkuser',
             'register': '/users/adduser'
-        }
+        },
+        pages: ['home', 'courses'],
+        page: 'home'
     },
     mounted: function () {
+        localStorage.login === 'true' ? app.pages.push('center') : app.pages.push('person');
         let self = this;
         axios.get(self.url['video']).then(function (response) {
             self.videos = response["data"];
@@ -31,9 +39,6 @@ let app = new Vue({
             this.username = "";
             this.password = "";
         },
-        popup: function () {
-            $.popup('.popup-about');
-        },
         toggle: function () {
             this.status === 'register' ? this.status = 'login' : this.status = 'register';
         },
@@ -45,19 +50,21 @@ let app = new Vue({
             params.append('password', self.password);
 
             if (!reg.test(self.username)) {
-                $.toast('请输入正确的手机号码');
+                toast.fail({title: "输入有误"});
                 return
             }
 
             axios.post(self.url[id], params).then(function (response) {
                 if (response.data['res'] === '200') {
-                    $.toast('登录成功');
+                    toast.success({title: "登录成功"});
+                    localStorage.login = 'true';
+                    app.page = app.pages.push('center');
+                } else if (response.data['res'] === '400') {
+                    toast.fail({title: "登录失败"});
+                } else if (response.data['res'] === '300') {
+                    toast.success({title: "注册成功"});
                     self.username = "";
                     self.password = "";
-                } else if (response.data['res'] === '400') {
-                    $.toast('登录失败');
-                } else if (response.data['res'] === '300') {
-                    $.toast('注册成功');
                 }
             }).catch(function (response) {
                 console.log(response);
@@ -65,3 +72,24 @@ let app = new Vue({
         }
     }
 });
+
+// let apiready = function () {
+//     api.parseTapmode();
+// };
+
+let tab = new auiTab({
+    element: document.getElementById('footer')
+}, function (ret) {
+    if (ret) {
+        console.log(app.pages[ret.index - 1]);
+        app.page = app.pages[ret.index - 1];
+    }
+});
+
+let toast = new auiToast();
+
+
+
+
+
+
