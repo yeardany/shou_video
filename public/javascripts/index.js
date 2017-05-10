@@ -22,11 +22,11 @@ let app = new Vue({
             'login': '/users/checkuser',
             'register': '/users/adduser'
         },
-        pages: ['home', 'courses'],
+        pages: ['home', 'courses', 'person'],
         page: 'home'
     },
     mounted: function () {
-        localStorage.login === 'true' ? app.pages.push('center') : app.pages.push('person');
+        //localStorage.login === 'true' ? app.pages.push('center') : app.pages.push('person');
         let self = this;
         axios.get(self.url['video']).then(function (response) {
             self.videos = response["data"];
@@ -57,8 +57,8 @@ let app = new Vue({
             axios.post(self.url[id], params).then(function (response) {
                 if (response.data['res'] === '200') {
                     toast.success({title: "登录成功"});
-                    localStorage.login = 'true';
-                    app.page = app.pages.push('center');
+                    // localStorage.login = 'true';
+                    // app.page = app.pages.push('center');
                 } else if (response.data['res'] === '400') {
                     toast.fail({title: "登录失败"});
                 } else if (response.data['res'] === '300') {
