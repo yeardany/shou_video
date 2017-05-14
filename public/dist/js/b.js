@@ -63,35 +63,30 @@
 /******/ 	__webpack_require__.p = "";
 /******/
 /******/ 	// Load entry module and return exports
-/******/ 	return __webpack_require__(__webpack_require__.s = 9);
+/******/ 	return __webpack_require__(__webpack_require__.s = 10);
 /******/ })
 /************************************************************************/
 /******/ ([
 /* 0 */
 /***/ (function(module, exports) {
 
-var g;
+/**
+ * Created by SYM on 2017/5/14.
+ */
 
-// This works in non-strict mode
-g = (function() {
-	return this;
-})();
+let url = {
+    'videoList': '/videos/list',
+    'findVideos': '/videos/findVideos',
+    'videoTitle': '/videos/videoname',
+    'videoUrl': '/videos/videourl',
+    'categoryList': '/categories/list',
+    'checkCategory': '/categories/checkCategory',
+    'addCategory': '/categories/addCategory',
+    'login': '/users/checkuser',
+    'register': '/users/adduser'
+};
 
-try {
-	// This works if eval is allowed (see CSP)
-	g = g || Function("return this")() || (1,eval)("this");
-} catch(e) {
-	// This works if the window reference is available
-	if(typeof window === "object")
-		g = window;
-}
-
-// g can still be undefined, but nothing to do about it...
-// We return undefined, instead of nothing here, so it's
-// easier to handle this case. if(!global) { ...}
-
-module.exports = g;
-
+module.exports = url;
 
 /***/ }),
 /* 1 */
@@ -9423,7 +9418,7 @@ return Vue$3;
 
 })));
 
-/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(0)))
+/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(4)))
 
 /***/ }),
 /* 3 */
@@ -9612,12 +9607,39 @@ process.umask = function() { return 0; };
 
 
 /***/ }),
-/* 4 */,
+/* 4 */
+/***/ (function(module, exports) {
+
+var g;
+
+// This works in non-strict mode
+g = (function() {
+	return this;
+})();
+
+try {
+	// This works if eval is allowed (see CSP)
+	g = g || Function("return this")() || (1,eval)("this");
+} catch(e) {
+	// This works if the window reference is available
+	if(typeof window === "object")
+		g = window;
+}
+
+// g can still be undefined, but nothing to do about it...
+// We return undefined, instead of nothing here, so it's
+// easier to handle this case. if(!global) { ...}
+
+module.exports = g;
+
+
+/***/ }),
 /* 5 */,
 /* 6 */,
 /* 7 */,
 /* 8 */,
-/* 9 */
+/* 9 */,
+/* 10 */
 /***/ (function(module, exports, __webpack_require__) {
 
 /**
@@ -9625,6 +9647,7 @@ process.umask = function() { return 0; };
  */
 let Vue = __webpack_require__(2);
 let axios = __webpack_require__(1);
+let url = __webpack_require__(0);
 
 let app = new Vue({
     el: "#app",
@@ -9633,15 +9656,15 @@ let app = new Vue({
         speed: '',
         users: []
     },
-    // mounted: function () {
-    //     let self = this;
-    //     getUser:  {
-    //         axios.get('/users/getuser').then(function (res) {
-    //             //console.log(JSON.stringify(res.data));
-    //             self.users = res.data;
-    //         });
-    //     }
-    // }
+    mounted: function () {
+        let self = this;
+        getUser:  {
+            axios.get('/users/getuser').then(function (res) {
+                //console.log(JSON.stringify(res.data));
+                self.users = res.data;
+            });
+        }
+    }
 });
 
 let uploader = Qiniu.uploader({
@@ -9659,14 +9682,16 @@ let uploader = Qiniu.uploader({
         'BeforeUpload': function (up, file) {
             // 每个文件上传前，处理相关的事情
             let videoname = document.getElementById('videoname');
+            let videoepisode = document.getElementById('videoepisode');
+
             if (videoname.value === undefined || videoname.value === '' || videoname.value === null) {
                 alert('请输入文件名称');
                 location.reload();
             } else {
-                let data = {
-                    "videoname": videoname.value,
-                };
-                axios.post('/videos/videoname', data);
+                let params = new URLSearchParams();
+                params.append('videoname', videoname.value);
+                params.append('videoepisode', videoepisode.value);
+                axios.post(url['videoTitle'], params);
             }
         },
         'UploadProgress': function (up, file) {
@@ -9681,15 +9706,35 @@ let uploader = Qiniu.uploader({
             let sourceLink = domain + "/" + res.key;
             console.log(sourceLink);
             if (sourceLink.length > 0) {
-                var d = new Date();
-                var time = d.getFullYear() + "-" + (d.getMonth() + 1) + "-" + d.getDate();
+                let d = new Date();
+                let time = d.getFullYear() + "-" + (d.getMonth() + 1) + "-" + d.getDate();
                 let data = {
                     "videourl": sourceLink,
                     "videotime": time
                 };
-                axios.post('/videos/videourl', data).then(function (res) {
-                    alert(res.data.msg);
+                let params = {
+                    'category': document.getElementById('videoname').value,
+                    'introduce': document.getElementById('videointroduce').value
+                };
+
+                axios.post(url['checkCategory'], {"category": document.getElementById('videoname').value}).then(function (res) {
+                    if (res['data']['res'] === '200') {
+                        return axios.post(url['videoUrl'], data)
+                    } else if (res['data']['res'] === '400') {
+                        return axios.post(url['addCategory'], params);
+                    }
+                }).then(function (res) {
+                    if (res.data.res === '200') {
+                        alert(res.data.msg);
+                    } else if (res.data.res === '300') {
+                        return axios.post(url['videoUrl'], data)
+                    }
                     location.reload();
+                }).then(function (res) {
+                    if (res.data.res === '200') alert(res.data.msg);
+                    location.reload();
+                }).catch(function (err) {
+                    console.log(err)
                 });
             }
         }

@@ -3,6 +3,7 @@
  */
 let Vue = require('../../node_modules/vue/dist/vue');
 let axios = require('../../node_modules/axios/dist/axios.min');
+let url = require('../../components/configUrl');
 
 let app = new Vue({
     el: "#app",
@@ -11,15 +12,15 @@ let app = new Vue({
         speed: '',
         users: []
     },
-    // mounted: function () {
-    //     let self = this;
-    //     getUser:  {
-    //         axios.get('/users/getuser').then(function (res) {
-    //             //console.log(JSON.stringify(res.data));
-    //             self.users = res.data;
-    //         });
-    //     }
-    // }
+    mounted: function () {
+        let self = this;
+        getUser:  {
+            axios.get('/users/getuser').then(function (res) {
+                //console.log(JSON.stringify(res.data));
+                self.users = res.data;
+            });
+        }
+    }
 });
 
 let uploader = Qiniu.uploader({
@@ -37,14 +38,16 @@ let uploader = Qiniu.uploader({
         'BeforeUpload': function (up, file) {
             // 每个文件上传前，处理相关的事情
             let videoname = document.getElementById('videoname');
+            let videoepisode = document.getElementById('videoepisode');
+
             if (videoname.value === undefined || videoname.value === '' || videoname.value === null) {
                 alert('请输入文件名称');
                 location.reload();
             } else {
-                let data = {
-                    "videoname": videoname.value,
-                };
-                axios.post('/videos/videoname', data);
+                let params = new URLSearchParams();
+                params.append('videoname', videoname.value);
+                params.append('videoepisode', videoepisode.value);
+                axios.post(url['videoTitle'], params);
             }
         },
         'UploadProgress': function (up, file) {
@@ -59,15 +62,35 @@ let uploader = Qiniu.uploader({
             let sourceLink = domain + "/" + res.key;
             console.log(sourceLink);
             if (sourceLink.length > 0) {
-                var d = new Date();
-                var time = d.getFullYear() + "-" + (d.getMonth() + 1) + "-" + d.getDate();
+                let d = new Date();
+                let time = d.getFullYear() + "-" + (d.getMonth() + 1) + "-" + d.getDate();
                 let data = {
                     "videourl": sourceLink,
                     "videotime": time
                 };
-                axios.post('/videos/videourl', data).then(function (res) {
-                    alert(res.data.msg);
+                let params = {
+                    'category': document.getElementById('videoname').value,
+                    'introduce': document.getElementById('videointroduce').value
+                };
+
+                axios.post(url['checkCategory'], {"category": document.getElementById('videoname').value}).then(function (res) {
+                    if (res['data']['res'] === '200') {
+                        return axios.post(url['videoUrl'], data)
+                    } else if (res['data']['res'] === '400') {
+                        return axios.post(url['addCategory'], params);
+                    }
+                }).then(function (res) {
+                    if (res.data.res === '200') {
+                        alert(res.data.msg);
+                    } else if (res.data.res === '300') {
+                        return axios.post(url['videoUrl'], data)
+                    }
                     location.reload();
+                }).then(function (res) {
+                    if (res.data.res === '200') alert(res.data.msg);
+                    location.reload();
+                }).catch(function (err) {
+                    console.log(err)
                 });
             }
         }

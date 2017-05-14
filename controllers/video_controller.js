@@ -1,7 +1,7 @@
 /**
  * Created by SYM on 2017/3/20.
  */
-let videoModels = require('../modles/videos_model');
+let videoModel = require('../modles/videos_model');
 let qiniu = require('qiniu');
 
 //Access Key 和 Secret Key
@@ -10,16 +10,16 @@ qiniu.conf.SECRET_KEY = 'gnnyu4y0nsWgaej6xjX8-DTtnzVMca80ABqkbxam';
 
 let bucket = 'shou';//要上传的空间
 let videoData = {
-    videoName: '',
+    videoTitle: '',
+    videoEpisode: '',
     videoUrl: '',
     videoTime: ''
 };
-//let key = 'vue.png';//上传到七牛后保存的文件名
 
 let video = {
 
     listVideos: function (req, res, next) {
-        videoModels.find({}, function (err, result) {
+        videoModel.find({}, function (err, result) {
             if (err) {
                 console.log(err);
                 res.send(err).end();
@@ -28,7 +28,25 @@ let video = {
                 //console.log(result);
                 res.send(result);
             }
-        });
+        }).limit(10);
+    },
+
+    findVideos: function (req, res, next) {
+        let category = req.body.category || '';
+        videoModel.find({"videoTitle": category}, function (err, result) {
+            if (err) {
+                console.log(err);
+                res.send(err).end();
+            } else {
+                try {
+                    if (result.videoTitle === category)
+                        console.log(result);
+                    res.send(result).end();
+                } catch (err) {
+                    res.json({'res': '400'}).end();
+                }
+            }
+        })
     },
 
     //构建上传策略函数，设置回调的url以及需要回调给业务服务器的数据
@@ -67,8 +85,11 @@ let video = {
 
     addVideoName: function (req, res, next) {
         console.log('收到请求视频名称:' + req.body.videoname);
-        let videoName = req.body.videoname || '';
-        videoData.videoName = videoName;
+        console.log('收到请求视频集数:' + req.body.videoepisode);
+        let videoTitle = req.body.videotitle || '';
+        let videoEpisode = req.body.videoepisode || '';
+        videoData.videoTitle = videoTitle;
+        videoData.videoEpisode = videoEpisode;
     },
 
     addVideo: function (req, res, next) {
@@ -78,7 +99,7 @@ let video = {
         let videoTime = req.body.videotime || '';
         videoData.videoUrl = videoUrl;
         videoData.videoTime = videoTime;
-        let newVideo = new videoModels(videoData);
+        let newVideo = new videoModel(videoData);
 
         newVideo.save(function (err) {
             if (err) {
@@ -88,7 +109,7 @@ let video = {
                 console.log("保存视频成功");
                 res.send({
                     msg: "保存视频成功",
-                    code: "200"
+                    res: "200"
                 }).end();
             }
         })

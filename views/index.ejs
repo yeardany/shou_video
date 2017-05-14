@@ -16,116 +16,75 @@
             }
         }
 
+        .homeWrapper {
+            margin-bottom: 3.2rem !important;
+        }
+
         .aui-bar-nav .aui-title {
             font-family: "Microsoft YaHei", 微软雅黑, "MicrosoftJhengHei", 华文细黑, STHeiti, MingLiu
         }
 
-        #demo {
-            width: 4rem;
-            height: 4rem;
-            position: absolute;
-            left: 50%;
-            top: 50%;
-            margin-left: -2rem;
-            margin-top: -2rem;
-            background-color: #e0e0e0;
-            border-radius: 50%;
-            line-height: 4rem;
-            text-align: center;
-            color: #212121;
-            font-size: 0.6rem;
+        .introduce p {
+            font-size: 0.7rem;
+            color: #86899F;
+            font-weight: 300;
+            display: -webkit-box;
+            -webkit-line-clamp: 3;
+            -webkit-box-orient: vertical;
+            word-break: break-all;
+            height: 3rem;
+            overflow: hidden;
+            margin-top: 0.2rem;
+            text-overflow: ellipsis;
         }
 
-        .homeWrapper {
-            margin-bottom: 2.2rem;
+        .episodes {
+            height: 22vw;
+            overflow-x: scroll;
+        }
+
+        .episodes table th div {
+            width: 28vw;
+            height: 12vw;
+            border-radius: 5%;
+            margin: 2vw 2vw 2vw 0;
+            border: 1px solid #eee;
+        }
+
+        .episodes table th div span:first-child {
+            color: #404144;
+            font-weight: 400;
+        }
+
+        .episodes table th div span {
+            display: block;
+            height: 50%;
+            padding: 0.15rem;
+            margin: 0 0.2rem;
+            text-align: center;
+            font-size: 0.6rem;
+            font-weight: 300;
+            color: #999;
         }
     </style>
 </head>
 <body>
 <section class="aui-content" id="app">
+
     <header class="aui-bar aui-bar-nav aui-bar-light">
         <div class="aui-title">海大视频小站</div>
     </header>
-    <div v-show="page==='home'" class="homeWrapper">
-        <div class="aui-card-list" v-for="item in videos">
-            <div class="aui-card-list-header">
-                {{item.videoName}}
-            </div>
-            <div class="aui-card-list-content" id="videoWrap">
-                <video :src="item.videoUrl" controls="controls" :width="videoWidth" style="margin-left: 15px"></video>
-            </div>
-            <div class="aui-card-list-footer">
-                发表于 {{item.videoTime}}
-            </div>
-        </div>
-    </div>
-    <div v-if="page==='courses'">
-        <div class="aui-content aui-margin-b-15">
-            <ul class="aui-list aui-media-list">
-                <li class="aui-list-item">
-                    <div class="aui-list-item-inner">
-                        <div class="aui-list-item-title">多张图片列表一</div>
-                        <p>借助栅格来实现图片列表</p>
-                        <div class="aui-row aui-row-padded">
-                            <div class="aui-col-xs-4">
-                                <img src="../image/demo1.png"/>
-                            </div>
-                            <div class="aui-col-xs-4">
-                                <img src="../image/demo2.png"/>
-                            </div>
-                            <div class="aui-col-xs-4">
-                                <img src="../image/demo3.png"/>
-                            </div>
-                        </div>
-                    </div>
-                </li>
-            </ul>
-        </div>
-    </div>
-    <div v-if="page==='person'">
-        <div class="aui-content aui-margin-b-15">
-            <ul class="aui-list aui-form-list">
-                <li class="aui-list-item">
-                    <div class="aui-list-item-inner">
-                        <div class="aui-list-item-label-icon">
-                            <i class="aui-iconfont aui-icon-mobile"></i>
-                        </div>
-                        <div class="aui-list-item-label">
-                            账号
-                        </div>
-                        <div class="aui-list-item-input">
-                            <input type="text" placeholder="输入账号" v-model="username">
-                        </div>
-                    </div>
-                </li>
-                <li class="aui-list-item">
-                    <div class="aui-list-item-inner">
-                        <div class="aui-list-item-label-icon">
-                            <i class="aui-iconfont aui-icon-lock"></i>
-                        </div>
-                        <div class="aui-list-item-label">
-                            密码
-                        </div>
-                        <div class="aui-list-item-input">
-                            <input type="password" placeholder="输入密码" v-model="password">
-                        </div>
-                    </div>
-                </li>
-                <li class="aui-list-item">
-                    <div class="aui-list-item-inner aui-list-item-center aui-list-item-btn">
-                        <!--<div class="aui-btn aui-btn-info aui-margin-r-5" @click="reset">清空</div>-->
-                        <div class="aui-btn aui-btn-danger aui-margin-l-5" @click="operate('login')">登录</div>
-                        <div class="aui-btn aui-btn-success aui-margin-l-5" @click="operate('register')">注册</div>
-                    </div>
-                </li>
-            </ul>
-        </div>
-    </div>
+
+    <page-home :page="page" :width="videoWidth"></page-home>
+    <page-category :page="page" :width="videoWidth"></page-category>
+    <page-person :page="page" :width="videoWidth"></page-person>
+
 </section>
+
 <footer class="aui-bar aui-bar-tab" id="footer">
     <div class="aui-bar-tab-item aui-active" tapmode>
         <i class="aui-iconfont aui-icon-home"></i>
-        <div class="aui-bar-tab-label">首页</div>
+        <div class="aui-bar-tab-label">最新</div>
     </div>
     <div class="aui-bar-tab-item" tapmode>
         <i class="aui-iconfont aui-icon-calendar"></i>
@@ -137,6 +96,7 @@
         <div class="aui-bar-tab-label">我的</div>
     </div>
 </footer>
+
 <script type="text/javascript" src="/lib/api.js"></script>
 <script src="/dist/js/a.js"></script>
 </body>
