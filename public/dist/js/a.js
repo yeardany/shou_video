@@ -9753,7 +9753,7 @@ function category() {
                         <div class="aui-row">\
                             <div class="aui-col-xs-6" style="margin-right: 0.5rem;">\
                                 <video :src="videoUrl"\
-                                controls="controls" :width="width/2"></video>\
+                                controls="controls" width="100%"></video>\
                             </div>\
                             <div class="introduce">\
                                 <div class="aui-list-item-title">{{category.videoTitle}}</div>\
@@ -9845,7 +9845,7 @@ function home() {
         <div class="aui-card-list" v-for="item in videos">\
             <div class="aui-card-list-header">{{item.videoTitle}}{{item.videoEpisode}}</div>\
                 <div class="aui-card-list-content">\
-                    <video :src="item.videoUrl" controls="controls" style="margin-left: 15px" :width="width"></video>\
+                    <video :src="item.videoUrl" controls="controls" preload="none" style="margin-left: 15px" :width="width"></video>\
                 </div>\
             <div class="aui-card-list-footer">发表于 {{item.videoTime}}</div>\
         </div>\
