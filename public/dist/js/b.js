@@ -68,11 +68,13 @@
 /************************************************************************/
 /******/ ([
 /* 0 */
-/***/ (function(module, exports) {
+/***/ (function(module, exports, __webpack_require__) {
 
+"use strict";
 /**
  * Created by SYM on 2017/5/14.
  */
+
 
 let url = {
     'videoList': '/videos/list',
@@ -9642,9 +9644,12 @@ module.exports = g;
 /* 10 */
 /***/ (function(module, exports, __webpack_require__) {
 
+"use strict";
 /**
  * Created by SYM on 2017/3/20.
  */
+
+
 let Vue = __webpack_require__(2);
 let axios = __webpack_require__(1);
 let url = __webpack_require__(0);
@@ -9672,7 +9677,7 @@ let uploader = Qiniu.uploader({
     browse_button: 'upload',
     uptoken_url: './videos/uptoken',
     get_new_uptoken: true,
-    domain: 'http://on5gjg7q0.bkt.clouddn.com/',
+    domain: 'http://videos.evercx.me',
     max_file_size: '6144mb',
     max_retries: 1,
     chunk_size: '10mb',

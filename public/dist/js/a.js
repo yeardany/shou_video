@@ -68,11 +68,13 @@
 /************************************************************************/
 /******/ ([
 /* 0 */
-/***/ (function(module, exports) {
+/***/ (function(module, exports, __webpack_require__) {
 
+"use strict";
 /**
  * Created by SYM on 2017/5/14.
  */
+
 
 let url = {
     'videoList': '/videos/list',
@@ -9746,7 +9748,7 @@ function category() {
     <div v-show="page===\'category\'">\
         <div class="aui-content aui-margin-b-15">\
             <ul class="aui-list aui-media-list">\
-                <li class="aui-list-item" v-for="category in categoryDetail">\
+                <li class="aui-list-item" v-for="category in categories">\
                     <div class="aui-list-item-inner">\
                         <div class="aui-row">\
                             <div class="aui-col-xs-6" style="margin-right: 0.5rem;">\
@@ -9794,7 +9796,7 @@ function category() {
                         let detail = {
                             'videoTitle': e['videoTitle'],
                             'videoIntroduce': e['videoIntroduce'],
-                            'videoepisodes': response['data']
+                            'videoepisodes': response['data'].sort(self.up)
                         };
                         self.categoryDetail.push(detail);
                     })
@@ -9803,10 +9805,19 @@ function category() {
                 console.log(response);
             });
         },
+        computed: {
+            categories: function () {
+                return this.categoryDetail
+            }
+        },
         methods: {
             toggleVideo: function (url) {
                 this.videoUrl = url;
+            },
+            up: function (x, y,) {
+                return y.videoEpisode - x.videoEpisode
             }
+
         }
     }
 }
@@ -9973,7 +9984,7 @@ module.exports = person();
  * Created by SYM on 2017/3/20.
  */
 
-// import '../stylesheets/aui.less';
+
 // let jq = require("expose-loader?$!jquery");
 let Vue = __webpack_require__(2);
 let auitab = __webpack_require__(6);

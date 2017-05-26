@@ -2,7 +2,7 @@
  * Created by SYM on 2017/3/20.
  */
 "use strict";
-// import '../stylesheets/aui.less';
+
 // let jq = require("expose-loader?$!jquery");
 let Vue = require('../../node_modules/vue/dist/vue');
 let auitab = require('../../public/lib/aui-tab');

@@ -1,6 +1,7 @@
 /**
  * Created by SYM on 2017/5/14.
  */
+"use strict";
 
 let url = {
     'videoList': '/videos/list',
