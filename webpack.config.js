@@ -3,6 +3,7 @@
  */
 let webpack = require("webpack");
 let path = require('path');
+
 module.exports = {
     entry: {
         a: "./public/javascripts/index.js",
@@ -20,8 +21,19 @@ module.exports = {
                 test: /\.(woff|woff2|eot|ttf|svg)(\?[a-z0-9]+)?$/,
                 loader: 'url-loader?limit=1000&name=ttf/[name].[ext]'
             },
-            {test: /.\js$/, loader: "babel-loader", query: {presets: ['env']}, include: path.resolve(__dirname, "src")},
+            {
+                test: /\.js$/,
+                query: {presets: ['es2015']},
+                loader: "babel-loader"
+            },
             {test: /.\html$/, loader: "html-loader"}
         ]
-    }
+    },
+    plugins: [
+        new webpack.optimize.UglifyJsPlugin({
+            compress: {
+                warnings: false
+            }
+        })
+    ]
 };
