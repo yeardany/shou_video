@@ -5,10 +5,10 @@ let express = require('express');
 let router = express.Router();
 let videoController = require('../controllers/video_controller');
 
-router.get('/list', videoController.listVideos);
-router.get('/uptoken', videoController.upToken);
-router.post('/findVideos', videoController.findVideos);
-router.post('/videoname', videoController.addVideoName);
-router.post('/videourl', videoController.addVideo);
+router.get('/getVideoList', videoController.getVideoList);
+router.get('/getVideoToken', videoController.getVideoToken);
+router.post('/getCategoryVideo', videoController.getCategoryVideo);
+router.post('/putVideoTitle', videoController.putVideoTitle);
+router.post('/putVideoUrl', videoController.putVideoUrl);
 
 module.exports = router;

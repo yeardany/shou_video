@@ -5,7 +5,7 @@ let userModel = require('../modles/users_model');
 
 module.exports = {
 
-    findAllUsers: function (req, res, next) {
+    getUserList: function (req, res, next) {
         userModel.find({}, function (err, result) {
             if (err) {
                 console.log(err);
@@ -18,7 +18,7 @@ module.exports = {
         })
     },
 
-    findOneUser: function (req, res, next) {
+    userLogin: function (req, res, next) {
         let username = req.body.username || '';
         let password = req.body.password || '';
         userModel.findOne({"userName": username, "passWord": password}, function (err, result) {
@@ -36,7 +36,7 @@ module.exports = {
         })
     },
 
-    insertOneUser: function (req, res, next) {
+    userRegister: function (req, res, next) {
         let username = req.body.username || '';
         let password = req.body.password || '';
 

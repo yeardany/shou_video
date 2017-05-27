@@ -4,15 +4,16 @@
 "use strict";
 
 let url = {
-    'videoList': '/videos/list',
-    'findVideos': '/videos/findVideos',
-    'videoTitle': '/videos/videoname',
-    'videoUrl': '/videos/videourl',
-    'categoryList': '/categories/list',
-    'checkCategory': '/categories/checkCategory',
-    'addCategory': '/categories/addCategory',
-    'login': '/users/checkuser',
-    'register': '/users/adduser'
+    'videoList': '/videos/getVideoList',
+    'categoryVideo': '/videos/getCategoryVideo',
+    'videoToken': '/videos/getVideoToken',
+    'videoTitle': '/videos/putVideoTitle',
+    'videoUrl': '/videos/putVideoUrl',
+    'categoryList': '/categories/getCategoryList',
+    'categoryExist': '/categories/getCategoryExist',
+    'categoryCreate': '/categories/putCategoryCreate',
+    'login': '/users/userLogin',
+    'register': '/users/userRegister'
 };
 
 module.exports = url;

@@ -29,8 +29,8 @@ function category() {
                             <div>\
                                 <table>\
                                     <tr>\
-                                        <th v-for="episode in category.videoepisodes">\
-                                            <div @click="toggleVideo(episode.videoUrl)">\
+                                        <th v-for="episode in category.videoEpisodes">\
+                                            <div @click="chooseVideo(episode.videoUrl)">\
                                                 <span>第{{episode.videoEpisode}}集</span> \
                                                 <span>{{episode.videoTime}} 更新</span>\
                                             </div>\
@@ -57,11 +57,11 @@ function category() {
                 categories.forEach(function (e) {
                     let params = new URLSearchParams();
                     params.append('category', e['videoTitle']);
-                    axios.post(url['findVideos'], params).then(function (response) {
+                    axios.post(url['categoryVideo'], params).then(function (response) {
                         let detail = {
                             'videoTitle': e['videoTitle'],
                             'videoIntroduce': e['videoIntroduce'],
-                            'videoepisodes': response['data'].sort(self.up)
+                            'videoEpisodes': response['data'].sort(self.sequence)
                         };
                         self.categoryDetail.push(detail);
                     })
@@ -76,10 +76,10 @@ function category() {
             }
         },
         methods: {
-            toggleVideo: function (url) {
+            chooseVideo: function (url) {
                 this.videoUrl = url;
             },
-            up: function (x, y,) {
+            sequence: function (x, y,) {
                 return y.videoEpisode - x.videoEpisode
             }
 

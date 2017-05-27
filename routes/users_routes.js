@@ -5,8 +5,8 @@ let express = require('express');
 let router = express.Router();
 let userController = require('../controllers/user_controller');
 
-router.post('/adduser', userController.insertOneUser);
-router.get('/getuser', userController.findAllUsers);
-router.post('/checkuser', userController.findOneUser);
+router.get('/getUserList', userController.getUserList);
+router.post('/userRegister', userController.userRegister);
+router.post('/userLogin', userController.userLogin);
 
 module.exports = router;

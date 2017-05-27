@@ -77,15 +77,16 @@
 
 
 let url = {
-    'videoList': '/videos/list',
-    'findVideos': '/videos/findVideos',
-    'videoTitle': '/videos/videoname',
-    'videoUrl': '/videos/videourl',
-    'categoryList': '/categories/list',
-    'checkCategory': '/categories/checkCategory',
-    'addCategory': '/categories/addCategory',
-    'login': '/users/checkuser',
-    'register': '/users/adduser'
+    'videoList': '/videos/getVideoList',
+    'categoryVideo': '/videos/getCategoryVideo',
+    'videoToken': '/videos/getVideoToken',
+    'videoTitle': '/videos/putVideoTitle',
+    'videoUrl': '/videos/putVideoUrl',
+    'categoryList': '/categories/getCategoryList',
+    'categoryExist': '/categories/getCategoryExist',
+    'categoryCreate': '/categories/putCategoryCreate',
+    'login': '/users/userLogin',
+    'register': '/users/userRegister'
 };
 
 module.exports = url;
@@ -9662,20 +9663,20 @@ let app = new Vue({
         users: []
     },
     mounted: function () {
-        let self = this;
-        getUser:  {
-            axios.get('/users/getuser').then(function (res) {
-                //console.log(JSON.stringify(res.data));
-                self.users = res.data;
-            });
-        }
+        // let self = this;
+        // getUser:  {
+        //     axios.get(['']).then(function (res) {
+        //         //console.log(JSON.stringify(res.data));
+        //         self.users = res.data;
+        //     });
+        // }
     }
 });
 
 let uploader = Qiniu.uploader({
     runtimes: 'html5,flash,html4',
     browse_button: 'upload',
-    uptoken_url: './videos/uptoken',
+    uptoken_url: url['videoToken'],
     get_new_uptoken: true,
     domain: 'http://videos.evercx.me',
     max_file_size: '6144mb',
@@ -9686,16 +9687,16 @@ let uploader = Qiniu.uploader({
     init: {
         'BeforeUpload': function (up, file) {
             // 每个文件上传前，处理相关的事情
-            let videoname = document.getElementById('videoname');
-            let videoepisode = document.getElementById('videoepisode');
+            let videoTitle = document.getElementById('videoTitle');
+            let videoEpisode = document.getElementById('videoEpisode');
 
-            if (videoname.value === undefined || videoname.value === '' || videoname.value === null) {
+            if (videoTitle.value === undefined || videoTitle.value === '' || videoTitle.value === null) {
                 alert('请输入文件名称');
                 location.reload();
             } else {
                 let params = new URLSearchParams();
-                params.append('videoname', videoname.value);
-                params.append('videoepisode', videoepisode.value);
+                params.append('videoTitle', videoTitle.value);
+                params.append('videoEpisode', videoEpisode.value);
                 axios.post(url['videoTitle'], params);
             }
         },
@@ -9714,19 +9715,19 @@ let uploader = Qiniu.uploader({
                 let d = new Date();
                 let time = d.getFullYear() + "-" + (d.getMonth() + 1) + "-" + d.getDate();
                 let data = {
-                    "videourl": sourceLink,
-                    "videotime": time
+                    "videoUrl": sourceLink,
+                    "videoTime": time
                 };
                 let params = {
-                    'category': document.getElementById('videoname').value,
-                    'introduce': document.getElementById('videointroduce').value
+                    'category': document.getElementById('videoTitle').value,
+                    'introduce': document.getElementById('videoIntroduce').value
                 };
 
-                axios.post(url['checkCategory'], {"category": document.getElementById('videoname').value}).then(function (res) {
+                axios.post(url['categoryExist'], {"category": document.getElementById('videoTitle').value}).then(function (res) {
                     if (res['data']['res'] === '200') {
                         return axios.post(url['videoUrl'], data)
                     } else if (res['data']['res'] === '400') {
-                        return axios.post(url['addCategory'], params);
+                        return axios.post(url['categoryCreate'], params);
                     }
                 }).then(function (res) {
                     if (res.data.res === '200') {

@@ -5,20 +5,19 @@ let categoryModel = require('../modles/categories_model');
 
 module.exports = {
 
-    findAllCategories: function (req, res, next) {
+    getCategoryList: function (req, res, next) {
         categoryModel.find({}, function (err, result) {
             if (err) {
                 console.log(err);
                 res.send(err).end();
             } else {
                 console.log("查询分类表成功");
-                console.log(result);
                 res.send(result).end();
             }
         })
     },
 
-    findOneCategory: function (req, res, next) {
+    getCategoryExist: function (req, res, next) {
         let category = req.body.category || '';
         categoryModel.findOne({"videoTitle": category}, function (err, result) {
             if (err) {
@@ -35,7 +34,7 @@ module.exports = {
         })
     },
 
-    insertOneCategory: function (req, res, next) {
+    putCategoryCreate: function (req, res, next) {
         let category = req.body.category || '';
         let introduce = req.body.introduce || '';
 

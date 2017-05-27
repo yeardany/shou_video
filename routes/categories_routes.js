@@ -5,8 +5,8 @@ let express = require('express');
 let router = express.Router();
 let categoryController = require('../controllers/category_controller');
 
-router.post('/addCategory', categoryController.insertOneCategory);
-router.post('/checkCategory', categoryController.findOneCategory);
-router.get('/list', categoryController.findAllCategories);
+router.get('/getCategoryList', categoryController.getCategoryList);
+router.post('/putCategoryCreate', categoryController.putCategoryCreate);
+router.post('/getCategoryExist', categoryController.getCategoryExist);
 
 module.exports = router;

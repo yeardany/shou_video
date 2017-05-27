@@ -77,15 +77,16 @@
 
 
 let url = {
-    'videoList': '/videos/list',
-    'findVideos': '/videos/findVideos',
-    'videoTitle': '/videos/videoname',
-    'videoUrl': '/videos/videourl',
-    'categoryList': '/categories/list',
-    'checkCategory': '/categories/checkCategory',
-    'addCategory': '/categories/addCategory',
-    'login': '/users/checkuser',
-    'register': '/users/adduser'
+    'videoList': '/videos/getVideoList',
+    'categoryVideo': '/videos/getCategoryVideo',
+    'videoToken': '/videos/getVideoToken',
+    'videoTitle': '/videos/putVideoTitle',
+    'videoUrl': '/videos/putVideoUrl',
+    'categoryList': '/categories/getCategoryList',
+    'categoryExist': '/categories/getCategoryExist',
+    'categoryCreate': '/categories/putCategoryCreate',
+    'login': '/users/userLogin',
+    'register': '/users/userRegister'
 };
 
 module.exports = url;
@@ -9764,8 +9765,8 @@ function category() {
                             <div>\
                                 <table>\
                                     <tr>\
-                                        <th v-for="episode in category.videoepisodes">\
-                                            <div @click="toggleVideo(episode.videoUrl)">\
+                                        <th v-for="episode in category.videoEpisodes">\
+                                            <div @click="chooseVideo(episode.videoUrl)">\
                                                 <span>第{{episode.videoEpisode}}集</span> \
                                                 <span>{{episode.videoTime}} 更新</span>\
                                             </div>\
@@ -9792,11 +9793,11 @@ function category() {
                 categories.forEach(function (e) {
                     let params = new URLSearchParams();
                     params.append('category', e['videoTitle']);
-                    axios.post(url['findVideos'], params).then(function (response) {
+                    axios.post(url['categoryVideo'], params).then(function (response) {
                         let detail = {
                             'videoTitle': e['videoTitle'],
                             'videoIntroduce': e['videoIntroduce'],
-                            'videoepisodes': response['data'].sort(self.up)
+                            'videoEpisodes': response['data'].sort(self.sequence)
                         };
                         self.categoryDetail.push(detail);
                     })
@@ -9811,10 +9812,10 @@ function category() {
             }
         },
         methods: {
-            toggleVideo: function (url) {
+            chooseVideo: function (url) {
                 this.videoUrl = url;
             },
-            up: function (x, y,) {
+            sequence: function (x, y,) {
                 return y.videoEpisode - x.videoEpisode
             }
 

@@ -8,11 +8,31 @@
     <meta name="apple-mobile-web-app-status-bar-style" content="black">
     <link rel="stylesheet" href="/stylesheets/aui.css">
     <style type="text/css">
-        @media screen and (min-width: 414px) {
+        @media screen and (min-width: 415px) {
             body, #footer {
                 width: 414px;
                 margin: auto;
                 border: 1px solid #eee;
+            }
+
+            .episodes table th div {
+                width: 129px !important;
+                height: 50px !important;
+            }
+
+            .introduce p {
+                font-size: 15px !important;
+                height: 64px !important;
+            }
+
+            video {
+                height: 100px;
+            }
+        }
+
+        @media screen and (max-width: 319px) {
+            body, #footer {
+                width: 320px;
             }
         }
 
@@ -25,7 +45,7 @@
         }
 
         .introduce p {
-            font-size: 0.7rem;
+            font-size: .7rem;
             color: #86899F;
             font-weight: 300;
             display: -webkit-box;
@@ -44,7 +64,7 @@
         }
 
         .episodes table th div {
-            width: 28vw;
+            width: 31vw;
             height: 12vw;
             border-radius: 5%;
             margin: 2vw 2vw 2vw 0;
@@ -59,10 +79,10 @@
         .episodes table th div span {
             display: block;
             height: 50%;
-            padding: 0.15rem;
-            margin: 0 0.2rem;
+            padding: .1rem;
+            margin: 0 .2rem;
             text-align: center;
-            font-size: 0.6rem;
+            font-size: .6rem;
             font-weight: 300;
             color: #999;
         }
@@ -76,8 +96,8 @@
     </header>
 
     <page-home :page="page" :width="videoWidth"></page-home>
-    <page-category :page="page" :width="videoWidth"></page-category>
-    <page-person :page="page" :width="videoWidth"></page-person>
+    <page-category :page="page"></page-category>
+    <page-person :page="page"></page-person>
 
 </section>
 

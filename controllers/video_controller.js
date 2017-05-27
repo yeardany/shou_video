@@ -18,20 +18,19 @@ let videoData = {
 
 let video = {
 
-    listVideos: function (req, res, next) {
+    getVideoList: function (req, res, next) {
         videoModel.find({}, function (err, result) {
             if (err) {
                 console.log(err);
                 res.send(err).end();
             } else {
-                //console.log("查询视频列表成功");
-                //console.log(result);
+                console.log("查询视频列表成功");
                 res.send(result);
             }
         }).limit(10);
     },
 
-    findVideos: function (req, res, next) {
+    getCategoryVideo: function (req, res, next) {
         let category = req.body.category || '';
         videoModel.find({"videoTitle": category}, function (err, result) {
             if (err) {
@@ -50,7 +49,7 @@ let video = {
     },
 
     //构建上传策略函数，设置回调的url以及需要回调给业务服务器的数据
-    upToken: function (req, res, next) {
+    getVideoToken: function (req, res, next) {
         let putPolicy = new qiniu.rs.PutPolicy(bucket);
         //putPolicy.callbackUrl = 'http://your.domain.com/callback';
         //putPolicy.callbackBody = 'filename=$(fname)&filesize=$(fsize)';
@@ -83,20 +82,16 @@ let video = {
         });
     },
 
-    addVideoName: function (req, res, next) {
-        console.log('收到请求视频名称:' + req.body.videoname);
-        console.log('收到请求视频集数:' + req.body.videoepisode);
-        let videoTitle = req.body.videotitle || '';
-        let videoEpisode = req.body.videoepisode || '';
+    putVideoTitle: function (req, res, next) {
+        let videoTitle = req.body.videoTitle || '';
+        let videoEpisode = req.body.videoEpisode || '';
         videoData.videoTitle = videoTitle;
         videoData.videoEpisode = videoEpisode;
     },
 
-    addVideo: function (req, res, next) {
-        console.log('收到请求视频地址:' + req.body.videourl);
-        console.log('收到请求视频时间:' + req.body.videotime);
-        let videoUrl = req.body.videourl || '';
-        let videoTime = req.body.videotime || '';
+    putVideoUrl: function (req, res, next) {
+        let videoUrl = req.body.videoUrl || '';
+        let videoTime = req.body.videoTime || '';
         videoData.videoUrl = videoUrl;
         videoData.videoTime = videoTime;
         let newVideo = new videoModel(videoData);
