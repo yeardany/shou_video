@@ -8,6 +8,11 @@ let Vue = require('../../node_modules/vue/dist/vue');
 let auitab = require('../../public/lib/aui-tab');
 let component = require('../../components/componentsEntry');
 
+const isDebug_mode = process.env.NODE_ENV !== 'production';
+Vue.config.debug = isDebug_mode;
+Vue.config.devtools = isDebug_mode;
+Vue.config.productionTip = isDebug_mode;
+
 let app = new Vue({
     el: "#app",
     data: {
