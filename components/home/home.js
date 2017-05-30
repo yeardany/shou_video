@@ -14,7 +14,7 @@ function home() {
         <div class="aui-card-list" v-for="item in videos">\
             <div class="aui-card-list-header">{{item.videoTitle}}{{item.videoEpisode}}</div>\
                 <div class="aui-card-list-content">\
-                    <video id="my-video" class="video-js" x-webkit-airplay="allow" webkit-playsinline data-setup="{}" controls="controls" poster="/images/poster.png" preload="none" style="margin-left: 15px" :width="width">\
+                    <video id="homeVideo" class="video-js" x-webkit-airplay="allow" webkit-playsinline data-setup="{}" controls="controls" poster="/images/poster.png" preload="none" style="margin-left: 15px" :width="width">\
                         <source :src="item.videoUrl"  type="video/mp4">\
                     </video>\
                 </div>\
