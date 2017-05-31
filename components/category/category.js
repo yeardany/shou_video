@@ -8,7 +8,7 @@ let url = require('../configUrl');
 
 function category() {
     return {
-        props: ['page', 'width'],
+        props: ['page'],
         template: '\
     <div v-show="page===\'category\'">\
         <div class="aui-content aui-margin-b-15">\
@@ -17,8 +17,9 @@ function category() {
                     <div class="aui-list-item-inner">\
                         <div class="aui-row">\
                             <div class="aui-col-xs-6" style="margin-right: 0.5rem;">\
-                                <video :src="videoUrl"\
-                                controls="controls" width="100%"></video>\
+                                <video :id="category.index" class="video-js" x-webkit-airplay="allow" webkit-playsinline style="margin-left: 15px" width="100%">\
+                                    <source :src="videoUrl"  type="video/mp4">\
+                                </video>\
                             </div>\
                             <div class="introduce">\
                                 <div class="aui-list-item-title">{{category.videoTitle}}</div>\
@@ -47,24 +48,28 @@ function category() {
         data: function () {
             return {
                 videoUrl: '',
-                categoryDetail: []
+                categoryDetail: [],
+                idList: []
             }
         },
         mounted: function () {
             let self = this;
             axios.get(url['categoryList']).then(function (response) {
-                let categories = response["data"];
+                let categories = response["data"], i = 0;
                 categories.forEach(function (e) {
                     let params = new URLSearchParams();
                     params.append('category', e['videoTitle']);
                     axios.post(url['categoryVideo'], params).then(function (response) {
-                        let detail = {
+                        self.categoryDetail.push({
+                            'index': 'cV' + i,
                             'videoTitle': e['videoTitle'],
                             'videoIntroduce': e['videoIntroduce'],
                             'videoEpisodes': response['data'].sort(self.sequence)
-                        };
-                        self.categoryDetail.push(detail);
-                    })
+                        });
+                        self.idList.push('cV' + i);
+                        self.videoUrl = self.categoryDetail[0]['videoEpisodes'][0]['videoUrl'];
+                        i++;
+                    });
                 });
             }).catch(function (response) {
                 console.log(response);
@@ -82,7 +87,6 @@ function category() {
             sequence: function (x, y,) {
                 return y.videoEpisode - x.videoEpisode
             }
-
         }
     }
 }
