@@ -28,9 +28,11 @@ let tab = new auiTab({
 let app = new Vue({
     el: "#app",
     data: {
+        maskShow: null,
         pages: ['home', 'category', 'person'],
         page: 'home',
-        videoWidth: document.getElementById('app').offsetWidth - 30
+        videoWidth: document.getElementById('app').offsetWidth - 30,
+        players: []
     },
     components: {
         'page-home': component.pageHome(),
@@ -38,6 +40,7 @@ let app = new Vue({
         'page-person': component.pagePerson()
     },
     mounted: function () {
+        this.maskShow = true;
         toast.loading({
             title: "加载中",
             duration: 2000
@@ -48,15 +51,16 @@ let app = new Vue({
 window.onload = function () {
     let idList = app.$refs['idList']['idList'];
     idList.forEach(function (d) {
-        neplayer(d, {
+        let myPlayer = neplayer(d, {
             "controls": true,
-            "autoplay": true,
+            "autoplay": false,
             "preload": "none",
             "poster": "../images/poster.png",
             "loop": false
-        }, function () {
         });
+        app.players.push({"object": myPlayer});
     });
+    app.maskShow = false;
     toast.hide();
 };
 

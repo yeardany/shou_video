@@ -8,7 +8,7 @@ let url = require('../configUrl');
 
 function category() {
     return {
-        props: ['page'],
+        props: ['page', 'width', 'players'],
         template: '\
     <div v-show="page===\'category\'">\
         <div class="aui-content aui-margin-b-15">\
@@ -17,7 +17,7 @@ function category() {
                     <div class="aui-list-item-inner">\
                         <div class="aui-row">\
                             <div class="aui-col-xs-6" style="margin-right: 0.5rem;">\
-                                <video :id="category.index" class="video-js" x-webkit-airplay="allow" webkit-playsinline style="margin-left: 15px" width="100%">\
+                                <video :id="category.index" class="video-js" x-webkit-airplay="allow" webkit-playsinline :width="width/2">\
                                     <source :src="videoUrl"  type="video/mp4">\
                                 </video>\
                             </div>\
@@ -31,7 +31,7 @@ function category() {
                                 <table>\
                                     <tr>\
                                         <th v-for="episode in category.videoEpisodes">\
-                                            <div @click="chooseVideo(episode.videoUrl)">\
+                                            <div @click="chooseVideo(category.index,episode.videoUrl)">\
                                                 <span>第{{episode.videoEpisode}}集</span> \
                                                 <span>{{episode.videoTime}} 更新</span>\
                                             </div>\
@@ -81,8 +81,11 @@ function category() {
             }
         },
         methods: {
-            chooseVideo: function (url) {
-                this.videoUrl = url;
+            chooseVideo: function (index, url) {
+                this.players[index.substr(2)]['object'].setDataSource({
+                    type: "video/mp4",
+                    src: url
+                });
             },
             sequence: function (x, y,) {
                 return y.videoEpisode - x.videoEpisode

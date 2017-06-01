@@ -92,6 +92,23 @@
             font-weight: 300;
             color: #999;
         }
+
+        .mask {
+            width: 100%;
+            height: 100%;
+            z-index: 100;
+            position: absolute;
+            top: 0;
+            background-color: rgba(0, 0, 0, .25);
+        }
+
+        .fade-enter-active, .fade-leave-active {
+            transition: opacity .5s
+        }
+
+        .fade-enter, .fade-leave-active {
+            opacity: 0
+        }
     </style>
 </head>
 <body>
@@ -102,9 +119,12 @@
     </header>
 
     <page-home :page="page" :width="videoWidth"></page-home>
-    <page-category :page="page" ref="idList"></page-category>
+    <page-category :page="page" :width="videoWidth" :players="players" ref="idList"></page-category>
     <page-person :page="page"></page-person>
 
+    <transition name="fade">
+        <div class="mask" v-show="maskShow"></div>
+    </transition>
 </section>
 
 <footer class="aui-bar aui-bar-tab" id="footer">
@@ -122,6 +142,7 @@
         <div class="aui-bar-tab-label">我的</div>
     </div>
 </footer>
+
 
 <script type="text/javascript" src="/lib/api.js"></script>
 <script type="text/javascript" src="/dist/js/a.js"></script>
