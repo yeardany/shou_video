@@ -4,6 +4,7 @@
 "use strict";
 
 let axios = require('../../node_modules/axios/dist/axios.min');
+let auitoast = require('../../public/lib/aui-toast');
 let url = require('../configUrl');
 
 function category() {
@@ -49,7 +50,16 @@ function category() {
             return {
                 videoUrl: '',
                 categoryDetail: [],
-                idList: []
+                idList: [],
+                errCode: {
+                    "1": "播放中断",
+                    "2": "网路故障，加载失败",
+                    "3": "浏览器不支持",
+                    "4": "播放格式不支持",
+                    "5": "视频解码失败",
+                    "6": "请勿使用推流地址拉流",
+                    "7": "拉流超时"
+                }
             }
         },
         mounted: function () {
@@ -82,9 +92,12 @@ function category() {
         },
         methods: {
             chooseVideo: function (index, url) {
-                this.players[index.substr(2)]['object'].setDataSource({
-                    type: "video/mp4",
-                    src: url
+                let app = this;
+                let self = this.players[index.substr(2)]['object'];
+                if (!self.setDataSource({type: "video/mp4", src: url})) self.play();
+                self.onError(function (err) {
+                    if (err) self.pause();
+                    toast.fail({title: app.errCode[err.errCode] || '播放错误'});
                 });
             },
             sequence: function (x, y,) {
@@ -94,4 +107,5 @@ function category() {
     }
 }
 
+let toast = new auiToast();
 module.exports = category();
