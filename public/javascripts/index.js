@@ -6,6 +6,7 @@
 // let jq = require("expose-loader?$!jquery");
 import Vue from '../../node_modules/vue/dist/vue';
 import component from '../../components/componentsEntry';
+import YDUI from 'vue-ydui';
 import '../lib/aui-tab';
 import '../lib/aui-toast';
 
@@ -13,6 +14,7 @@ import '../lib/aui-toast';
 // Vue.config.debug = isDebug_mode;
 // Vue.config.devtools = isDebug_mode;
 // Vue.config.productionTip = isDebug_mode;
+Vue.use(YDUI);
 
 let toast = new auiToast();
 

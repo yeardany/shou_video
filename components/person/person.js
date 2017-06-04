@@ -5,7 +5,6 @@
 
 import axios from '../../node_modules/axios/dist/axios.min';
 import url from '../configUrl';
-import '../../public/lib/aui-toast';
 
 function person() {
     return {
@@ -13,43 +12,34 @@ function person() {
         template: '\
     <div v-if="page===\'person\'">\
         <div class="aui-content aui-margin-b-15">\
-            <ul class="aui-list aui-form-list">\
-                <li class="aui-list-item">\
-                    <div class="aui-list-item-inner">\
-                        <div class="aui-list-item-label-icon">\
-                            <i class="aui-iconfont aui-icon-mobile"></i>\
-                        </div>\
-                        <div class="aui-list-item-label">账号</div>\
-                        <div class="aui-list-item-input">\
-                            <input type="text" placeholder="输入账号" v-model="username">\
-                        </div>\
-                    </div>\
-                </li>\
-                <li class="aui-list-item">\
-                    <div class="aui-list-item-inner">\
-                        <div class="aui-list-item-label-icon">\
-                            <i class="aui-iconfont aui-icon-lock"></i>\
-                        </div>\
-                        <div class="aui-list-item-label">密码</div>\
-                        <div class="aui-list-item-input">\
-                            <input type="password" placeholder="输入密码" v-model="password">\
-                        </div>\
-                    </div>\
-                </li>\
-                <li class="aui-list-item">\
-                    <div class="aui-list-item-inner aui-list-item-center aui-list-item-btn">\
-                        <div class="aui-btn aui-btn-danger aui-margin-l-5" @click="operate(\'login\')">登录</div>\
-                        <div class="aui-btn aui-btn-success aui-margin-l-5" @click="operate(\'register\')">注册</div>\
-                    </div>\
-                </li>\
-            </ul>\
+            <yd-cell-group>\
+                <yd-cell-item>\
+                    <span slot="left">手机：</span>\
+                    <yd-input slot="right" v-model="username" regex="mobile" placeholder="请输入手机号码"></yd-input>\
+                </yd-cell-item>\
+                <yd-cell-item>\
+                    <span slot="left">密码：</span>\
+                    <yd-input slot="right" type="password" v-model="password" placeholder="请输入密码"></yd-input>\
+                </yd-cell-item>\
+            </yd-cell-group>\
+            <yd-button-group>\
+                <yd-button size="large" type="primary" @click.native="operate(\'login\')">登录</yd-button>\
+                <yd-button size="large" type="danger" @click.native="operate(\'register\')">注册</yd-button>\ \
+            </yd-button-group>\
         </div>\
+        <yd-button-group>\
+            <yd-button size="large" type="danger" @click.native="log = true">日志</yd-button>\
+        </yd-button-group>\
+        <yd-popup v-model="log" position="right">\
+            <yd-button type="danger" style="margin: 30px;" @click.native="log = false">关闭</yd-button>\
+        </yd-popup>\
     </div>',
         data: function () {
             return {
                 username: '',
                 password: '',
                 status: 'login',
+                log: false
             }
         },
         mounted: function () {
@@ -71,19 +61,17 @@ function person() {
                 params.append('password', self.password);
 
                 if (!reg.test(self.username)) {
-                    toast.fail({title: "输入有误"});
+                    self.$dialog.toast({mes: '输入有误', timeout: 1500, icon: 'error'});
                     return
                 }
 
                 axios.post(url[id], params).then(function (response) {
                     if (response.data['res'] === '200') {
-                        toast.success({title: "登录成功"});
-                        // localStorage.login = 'true';
-                        // app.page = app.pages.push('center');
+                        self.$dialog.toast({mes: '登录成功', timeout: 1500, icon: 'success'});
                     } else if (response.data['res'] === '400') {
-                        toast.fail({title: "登录失败"});
+                        self.$dialog.toast({mes: '登录失败', timeout: 1500, icon: 'error'});
                     } else if (response.data['res'] === '300') {
-                        toast.success({title: "注册成功"});
+                        self.$dialog.toast({mes: '注册成功', timeout: 1500, icon: 'success'});
                         self.username = "";
                         self.password = "";
                     }
@@ -95,5 +83,4 @@ function person() {
     }
 }
 
-let toast = new auiToast();
 module.exports = person();
