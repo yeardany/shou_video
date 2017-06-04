@@ -1,5 +1,5 @@
 {
-  "name": "backend",
+  "name": "shou_video",
   "version": "0.0.0",
   "private": true,
   "scripts": {
@@ -15,7 +15,8 @@
     "morgan": "~1.7.0",
     "node-sass-middleware": "0.9.8",
     "path": "^0.12.7",
-    "uglify-js": "^3.0.11"
+    "uglify-js": "^3.0.11",
+    "vue-ydui": "^0.6.4"
   },
   "devDependencies": {
     "axios": "^0.15.3",

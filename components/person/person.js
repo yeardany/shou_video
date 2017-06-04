@@ -3,9 +3,9 @@
  */
 "use strict";
 
-let axios = require('../../node_modules/axios/dist/axios.min');
-let auitoast = require('../../public/lib/aui-toast');
-let url = require('../configUrl');
+import axios from '../../node_modules/axios/dist/axios.min';
+import url from '../configUrl';
+import '../../public/lib/aui-toast';
 
 function person() {
     return {

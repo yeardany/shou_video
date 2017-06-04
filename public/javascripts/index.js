@@ -4,10 +4,10 @@
 "use strict";
 
 // let jq = require("expose-loader?$!jquery");
-let Vue = require('../../node_modules/vue/dist/vue');
-let auitab = require('../lib/aui-tab');
-let auitoast = require('../lib/aui-toast');
-let component = require('../../components/componentsEntry');
+import Vue from '../../node_modules/vue/dist/vue';
+import component from '../../components/componentsEntry';
+import '../lib/aui-tab';
+import '../lib/aui-toast';
 
 // const isDebug_mode = process.env.NODE_ENV !== 'production';
 // Vue.config.debug = isDebug_mode;

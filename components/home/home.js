@@ -3,8 +3,8 @@
  */
 "use strict";
 
-let axios = require('../../node_modules/axios/dist/axios.min');
-let url = require('../configUrl');
+import axios from '../../node_modules/axios/dist/axios.min';
+import url from '../configUrl';
 
 function home() {
     return {
