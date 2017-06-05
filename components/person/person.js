@@ -28,10 +28,18 @@ function person() {
             </yd-button-group>\
         </div>\
         <yd-button-group>\
-            <yd-button size="large" type="danger" @click.native="log = true">日志</yd-button>\
+            <yd-button size="large" type="hollow" @click.native="log = true">日志</yd-button>\
         </yd-button-group>\
-        <yd-popup v-model="log" position="right">\
-            <yd-button type="danger" style="margin: 30px;" @click.native="log = false">关闭</yd-button>\
+        <yd-popup v-model="log" position="right" width="100%">\
+            <yd-cell-group>\
+                <yd-cell-item v-for="item in logs">\
+                    <span slot="left">{{item.content}}</span>\
+                    <span slot="right">{{item.time}}</span>\
+                </yd-cell-item>\
+            </yd-cell-group>\
+            <yd-button-group>\
+                <yd-button size="large" type="danger" style="margin: 30px;" @click.native="log = false">关闭</yd-button>\
+            </yd-button-group>\
         </yd-popup>\
     </div>',
         data: function () {
@@ -39,7 +47,21 @@ function person() {
                 username: '',
                 password: '',
                 status: 'login',
-                log: false
+                log: false,
+                logs: [
+                    {"content": "个人中心页面改用YDUI组件框架", "time": "2017-06-04"},
+                    {"content": "分类页点击集数时可以直接播放，播放错误提示", "time": "2017-06-02"},
+                    {"content": "分类页视屏切换功能实现", "time": "2017-06-01"},
+                    {"content": "添加加载状态，分类页播放器使用网易云", "time": "2017-05-31"},
+                    {"content": "更换使用网易云播放器", "time": "2017-05-29"},
+                    {"content": "代码压缩/兼容性，ES6转换", "time": "2017-05-27"},
+                    {"content": "代码压缩/兼容性，ES6转换", "time": "2017-05-27"},
+                    {"content": "代码重构/模块化，后台完善", "time": "2017-05-15"},
+                    {"content": "完善登录注册", "time": "2017-04-24"},
+                    {"content": "七牛上传完成,数据保存到腾讯云", "time": "2017-04-02"},
+                    {"content": "完成基本内容，七牛上传一直报错，待解决", "time": "2017-04-01"},
+                    {"content": "增加日志功能", "time": "2017-06-05"}
+                ]
             }
         },
         mounted: function () {

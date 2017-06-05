@@ -10,10 +10,10 @@ import YDUI from 'vue-ydui';
 import '../lib/aui-tab';
 import '../lib/aui-toast';
 
-// const isDebug_mode = process.env.NODE_ENV !== 'production';
-// Vue.config.debug = isDebug_mode;
-// Vue.config.devtools = isDebug_mode;
-// Vue.config.productionTip = isDebug_mode;
+const isDebug_mode = process.env.NODE_ENV !== 'production';
+Vue.config.debug = isDebug_mode;
+Vue.config.devtools = isDebug_mode;
+Vue.config.productionTip = isDebug_mode;
 Vue.use(YDUI);
 
 let toast = new auiToast();
