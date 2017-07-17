@@ -14,7 +14,7 @@ var categories = require('./routes/categories_routes');
 var users = require('./routes/users_routes');
 
 var app = express();
-mongoose.connect(MongoDB_Conf.database);
+mongoose.connect(MongoDB_Conf.database, {useMongoClient: true});
 
 // view engine setup
 app.set('views', path.join(__dirname, 'views'));
