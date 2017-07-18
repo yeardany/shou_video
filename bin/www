@@ -20,7 +20,7 @@ var credentials = {key: privateKey, cert: certificate};
  */
 
 var port = normalizePort(process.env.PORT || '3000');
-var sport = normalizePort(process.env.PORT || '9000');
+var sport = normalizePort(process.env.PORT || '6000');
 
 app.set('port', port);
 

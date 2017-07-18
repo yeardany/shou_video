@@ -60,3 +60,9 @@ typings/
 .env
 
 .mp4
+start.sh
+.avoscloud
+.leancloud
+
+# VIM
+*.swp
