@@ -2,13 +2,12 @@
  * Created by SYM on 2017/3/20.
  */
 "use strict";
-
 // let jq = require("expose-loader?$!jquery");
-import Vue from '../../node_modules/vue/dist/vue';
-import component from '../../components/componentsEntry';
-import YDUI from 'vue-ydui';
-import '../lib/aui-tab';
-import '../lib/aui-toast';
+import Vue from "../../node_modules/vue/dist/vue";
+import component from "../../components/componentsEntry";
+import YDUI from "vue-ydui";
+import "../lib/aui-tab";
+import "../lib/aui-toast";
 
 const isDebug_mode = process.env.NODE_ENV !== 'production';
 Vue.config.debug = isDebug_mode;
@@ -42,16 +41,32 @@ let app = new Vue({
         'page-person': component.pagePerson()
     },
     mounted: function () {
+        if (!this.isWeChat) return;
+        document.getElementById('footer').style.display = 'block';
         this.maskShow = true;
         toast.loading({
             title: "加载中",
             duration: 2000
         });
+    },
+    computed: {
+        isWeChat: function () {
+            return this.weChat();
+            //return false;
+        }
+    },
+    methods: {
+        weChat: function () {
+            let ua = navigator.userAgent.toLowerCase();
+            return /micromessenger/.test(ua);
+        }
     }
 });
 
 window.onload = function () {
-    let idList = app.$refs['idList']['idList'];
+    let idList;
+    if (app.$refs['idList']) idList = app.$refs['idList']['idList'];
+    else idList = [];
     idList.forEach(function (d) {
         let myPlayer = neplayer(d, {
             "controls": true,

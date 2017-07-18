@@ -8,8 +8,8 @@
     <meta name="apple-mobile-web-app-status-bar-style" content="black">
     <title>海大视频小站</title>
     <link rel="stylesheet" href="/stylesheets/aui.css">
-    <link rel="stylesheet" href="//nos.netease.com/vod163/nep.min.css">
-    <link rel="stylesheet" href="//unpkg.com/vue-ydui/dist/ydui.px.css">
+    <link rel="stylesheet" href="/stylesheets/nep.min.css">
+    <link rel="stylesheet" href="/stylesheets/ydui.px.css">
     <style type="text/css">
         @media screen and (min-width: 415px) {
             body, #footer {
@@ -113,37 +113,37 @@
     </style>
 </head>
 <body>
-<section class="aui-content" id="app">
+<div id="main">
+    <section class="aui-content" id="app" v-if="isWeChat">
+        <header class="aui-bar aui-bar-nav aui-bar-light">
+            <div class="aui-title">海大视频小站</div>
+        </header>
 
-    <header class="aui-bar aui-bar-nav aui-bar-light">
-        <div class="aui-title">海大视频小站</div>
-    </header>
+        <page-home :page="page" :width="videoWidth"></page-home>
+        <page-category :page="page" :width="videoWidth" :players="players" ref="idList"></page-category>
+        <page-person :page="page"></page-person>
 
-    <page-home :page="page" :width="videoWidth"></page-home>
-    <page-category :page="page" :width="videoWidth" :players="players" ref="idList"></page-category>
-    <page-person :page="page"></page-person>
+        <transition name="fade">
+            <div class="mask" v-show="maskShow"></div>
+        </transition>
+    </section>
 
-    <transition name="fade">
-        <div class="mask" v-show="maskShow"></div>
-    </transition>
-</section>
-
-<footer class="aui-bar aui-bar-tab" id="footer">
-    <div class="aui-bar-tab-item aui-active" tapmode>
-        <i class="aui-iconfont aui-icon-home"></i>
-        <div class="aui-bar-tab-label">最新</div>
-    </div>
-    <div class="aui-bar-tab-item" tapmode>
-        <i class="aui-iconfont aui-icon-calendar"></i>
-        <div class="aui-bar-tab-label">分类</div>
-    </div>
-    <div class="aui-bar-tab-item" tapmode>
-        <div class="aui-dot"></div>
-        <i class="aui-iconfont aui-icon-my"></i>
-        <div class="aui-bar-tab-label">我的</div>
-    </div>
-</footer>
-
+    <footer class="aui-bar aui-bar-tab" id="footer" style="display: none">
+        <div class="aui-bar-tab-item aui-active" tapmode>
+            <i class="aui-iconfont aui-icon-home"></i>
+            <div class="aui-bar-tab-label">最新</div>
+        </div>
+        <div class="aui-bar-tab-item" tapmode>
+            <i class="aui-iconfont aui-icon-calendar"></i>
+            <div class="aui-bar-tab-label">分类</div>
+        </div>
+        <div class="aui-bar-tab-item" tapmode>
+            <div class="aui-dot"></div>
+            <i class="aui-iconfont aui-icon-my"></i>
+            <div class="aui-bar-tab-label">我的</div>
+        </div>
+    </footer>
+</div>
 <script type="text/javascript" src="/lib/api.js"></script>
 <script type="text/javascript" src="/dist/js/a.js"></script>
 <script type="text/javascript" src="/lib/nep.min.js"></script>
