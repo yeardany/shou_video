@@ -41,7 +41,8 @@ let app = new Vue({
         'page-person': component.pagePerson()
     },
     mounted: function () {
-        if (!this.isWeChat) return;
+        if (!this.isQQ) return;
+        document.getElementById('header').style.display = 'block';
         document.getElementById('footer').style.display = 'block';
         this.maskShow = true;
         toast.loading({
@@ -50,15 +51,18 @@ let app = new Vue({
         });
     },
     computed: {
-        isWeChat: function () {
-            return this.weChat();
-            //return false;
+        isQQ: function () {
+            return (!this.weChat() && this.qq())
         }
     },
     methods: {
         weChat: function () {
             let ua = navigator.userAgent.toLowerCase();
-            return /micromessenger/.test(ua);
+            return (/micromessenger/.test(ua));
+        },
+        qq: function () {
+            let ua = navigator.userAgent.toLowerCase();
+            return (/qq/.test(ua));
         }
     }
 });
