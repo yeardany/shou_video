@@ -6,9 +6,7 @@
     "peerflix-server": "./server/bin.js"
   },
   "scripts": {
-    "one": "node ./server/bin.js &",
-    "two": "node ./bin/www &",
-    "start": "npm run one && npm run two",
+    "start": "node ./bin/www",
     "test": "grunt test"
   },
   "main": "./server/bin.js",

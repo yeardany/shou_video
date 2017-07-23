@@ -5,12 +5,11 @@
  */
 
 var app = require('../app');
-var path = require('path');
-var debug = require('debug')('shou-video:server');
-var http = require('http');
-
 var fs = require('fs');
+var path = require('path');
+var http = require('http');
 var https = require('https');
+var debug = require('debug')('shou-video:server');
 var privateKey = fs.readFileSync(path.join(__dirname, '/private.pem'), 'utf8');
 var certificate = fs.readFileSync(path.join(__dirname, '/file.crt'), 'utf8');
 var credentials = {key: privateKey, cert: certificate};
@@ -51,16 +50,8 @@ httpsServer.listen(sport, function () {
 httpServer.on('error', onError);
 httpServer.on('listening', onListening);
 
-// Welcome
-app.get('/', function (req, res) {
-    if (req.protocol === 'https') {
-        res.status(200).send('Welcome to Safety Land!');
-    }
-    else {
-        res.status(200).send('Welcome!');
-    }
-});
-
+var socket = require('../lib/socket');
+socket(httpServer);
 
 /**
  * Normalize a port into a number, string, or false.
