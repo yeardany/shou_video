@@ -66,3 +66,5 @@ start.sh
 
 # VIM
 *.swp
+
+/public/videos/torrent-stream/
