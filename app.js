@@ -39,7 +39,7 @@ app.set('views', path.join(__dirname, 'app/views'));
 app.set('view engine', 'ejs');
 
 //设置静态文件目录
-var STATIC_OPTIONS = {maxAge: 3600000};
+var STATIC_OPTIONS = {maxAge: 3600000, redirect: true};
 app.use(express.static(path.join(__dirname, '../dist'), STATIC_OPTIONS));
 app.use(express.static(path.join(__dirname, '../.tmp'), STATIC_OPTIONS));
 app.use(express.static(path.join(__dirname, 'public'), STATIC_OPTIONS));

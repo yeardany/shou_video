@@ -33,4 +33,8 @@ router.post('/upload', multipart(), function (req, res, next) {
     });
 });
 
+router.get('/videos/*', multipart(), function (req, res, next) {
+    res.render('home');
+});
+
 module.exports = router;
