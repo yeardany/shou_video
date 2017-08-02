@@ -11,8 +11,10 @@
   },
   "main": "./server/bin.js",
   "dependencies": {
+    "ali-oss": "^4.9.0",
     "axios": "^0.15.3",
     "body-parser": "~1.16.0",
+    "co": "^4.6.0",
     "connect-multiparty": "^2.0.0",
     "connect-timeout": "^1.7.0",
     "cookie-parser": "~1.4.3",
