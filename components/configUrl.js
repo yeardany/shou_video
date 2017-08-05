@@ -4,11 +4,11 @@
 "use strict";
 
 let url = {
-    'videoList': '/videos/getVideoList',
-    'categoryVideo': '/videos/getCategoryVideo',
-    'videoToken': '/videos/getVideoToken',
-    'videoTitle': '/videos/putVideoTitle',
-    'videoUrl': '/videos/putVideoUrl',
+    'videoList': '/movies/getVideoList',
+    'categoryVideo': '/movies/getCategoryVideo',
+    'videoToken': '/movies/getVideoToken',
+    'videoTitle': '/movies/putVideoTitle',
+    'videoUrl': '/movies/putVideoUrl',
     'categoryList': '/categories/getCategoryList',
     'categoryExist': '/categories/getCategoryExist',
     'categoryCreate': '/categories/putCategoryCreate',

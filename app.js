@@ -57,7 +57,7 @@ app.use(AV.express());
 //设置路由
 app.use('/', index);
 app.use('/users', users);
-app.use('/videos', videos);
+app.use('/movies', videos);
 app.use('/torrents', torrents);
 app.use('/categories', categories);
 
