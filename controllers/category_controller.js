@@ -4,8 +4,7 @@
 let categoryModel = require('../modles/categories_model');
 let AV = require('leanengine');
 
-let categories = AV.Object.extend('categories');
-let query = new AV.Query(categories);
+let query = new AV.Query('categories');
 
 module.exports = {
 

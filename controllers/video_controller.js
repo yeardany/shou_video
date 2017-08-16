@@ -9,6 +9,7 @@ let AV = require('leanengine');
 qiniu.conf.ACCESS_KEY = 'ta3AWG_OV18vbalFzxX2jPEMnUCNjhZXIDofrWZO';
 qiniu.conf.SECRET_KEY = 'gnnyu4y0nsWgaej6xjX8-DTtnzVMca80ABqkbxam';
 
+let query = new AV.Query('videos');
 let bucket = 'shou';//要上传的空间
 let videoData = {
     videoTitle: '',
@@ -16,15 +17,13 @@ let videoData = {
     videoUrl: '',
     videoTime: ''
 };
-//let videos = AV.Object.extend('videos');
-let query = new AV.Query('videos');
 
 let video = {
 
     getVideoList: function (req, res, next) {
         query.descending('createdAt');
         query.find().then(function (results) {
-            res.send(results);
+            res.send(results).end();
         }, function (err) {
             if (err.code === 101) {
                 res.send([]);
@@ -47,12 +46,7 @@ let video = {
         let category = req.body.category || '';
         query.equalTo('videoTitle', category);
         query.find().then(function (results) {
-            try {
-                if (results.videoTitle === category)
-                    res.send(results).end();
-            } catch (err) {
-                res.json({'res': '400'}).end();
-            }
+            res.send(results).end();
         }, function (err) {
             if (err.code === 101) {
                 res.send([]);
