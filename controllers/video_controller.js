@@ -3,6 +3,7 @@
  */
 let videoModel = require('../modles/videos_model');
 let qiniu = require('qiniu');
+let AV = require('leanengine');
 
 //Access Key 和 Secret Key
 qiniu.conf.ACCESS_KEY = 'ta3AWG_OV18vbalFzxX2jPEMnUCNjhZXIDofrWZO';
@@ -15,37 +16,64 @@ let videoData = {
     videoUrl: '',
     videoTime: ''
 };
+//let videos = AV.Object.extend('videos');
+let query = new AV.Query('videos');
 
 let video = {
 
     getVideoList: function (req, res, next) {
-        videoModel.find({}, function (err, result) {
-            if (err) {
-                console.log(err);
-                res.send(err).end();
+        query.descending('createdAt');
+        query.find().then(function (results) {
+            res.send(results);
+        }, function (err) {
+            if (err.code === 101) {
+                res.send([]);
             } else {
-                console.log("查询视频列表成功");
-                res.send(result);
+                next(err);
             }
-        }).limit(10);
+        }).catch(next);
+        // videoModel.find({}, function (err, result) {
+        //     if (err) {
+        //         console.log(err);
+        //         res.send(err).end();
+        //     } else {
+        //         console.log("查询视频列表成功");
+        //         res.send(result);
+        //     }
+        // }).limit(10);
     },
 
     getCategoryVideo: function (req, res, next) {
         let category = req.body.category || '';
-        videoModel.find({"videoTitle": category}, function (err, result) {
-            if (err) {
-                console.log(err);
-                res.send(err).end();
-            } else {
-                try {
-                    if (result.videoTitle === category)
-                        console.log(result);
-                    res.send(result).end();
-                } catch (err) {
-                    res.json({'res': '400'}).end();
-                }
+        query.equalTo('videoTitle', category);
+        query.find().then(function (results) {
+            try {
+                if (results.videoTitle === category)
+                    res.send(results).end();
+            } catch (err) {
+                res.json({'res': '400'}).end();
             }
-        })
+        }, function (err) {
+            if (err.code === 101) {
+                res.send([]);
+            } else {
+                next(err);
+            }
+        }).catch(next);
+        // videoModel.find({"videoTitle": category}, function (err, result) {
+        //     if (err) {
+        //         console.log(err);
+        //         res.send(err).end();
+        //     } else {
+        //         try {
+        //             if (result.videoTitle === category)
+        //                 console.log(result);
+        //             res.send(result).end();
+        //         } catch (err) {
+        //             res.json({'res': '400'}).end();
+        //         }
+        //     }
+        // })
     },
 
     //构建上传策略函数，设置回调的url以及需要回调给业务服务器的数据

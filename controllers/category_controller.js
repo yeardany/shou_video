@@ -2,19 +2,33 @@
  * Created by SYM on 2017/5/14.
  */
 let categoryModel = require('../modles/categories_model');
+let AV = require('leanengine');
+
+let categories = AV.Object.extend('categories');
+let query = new AV.Query(categories);
 
 module.exports = {
 
     getCategoryList: function (req, res, next) {
-        categoryModel.find({}, function (err, result) {
-            if (err) {
-                console.log(err);
-                res.send(err).end();
+        query.find().then(function (results) {
+            console.log("查询分类表成功");
+            res.send(results);
+        }, function (err) {
+            if (err.code === 101) {
+                res.send([]);
             } else {
-                console.log("查询分类表成功");
-                res.send(result).end();
+                next(err);
             }
-        })
+        }).catch(next);
+        // categoryModel.find({}, function (err, result) {
+        //     if (err) {
+        //         console.log(err);
+        //         res.send(err).end();
+        //     } else {
+        //         console.log("查询分类表成功");
+        //         res.send(result).end();
+        //     }
+        // })
     },
 
     getCategoryExist: function (req, res, next) {
