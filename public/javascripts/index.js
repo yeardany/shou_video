@@ -46,7 +46,7 @@ let app = new Vue({
         document.getElementById('footer').style.display = 'block';
         this.maskShow = true;
         toast.loading({
-            title: "加载中",
+            title: "视频加载中",
             duration: 2000
         });
     },
@@ -63,6 +63,10 @@ let app = new Vue({
         qq: function () {
             let ua = navigator.userAgent.toLowerCase();
             return (/qq/.test(ua));
+        },
+        refresh: function () {
+            //window.location.reload(true);
+            location.replace('https://kirs.leanapp.cn');
         }
     }
 });

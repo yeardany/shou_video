@@ -117,6 +117,9 @@
     <section class="aui-content" id="app" v-if="isQQ">
         <header class="aui-bar aui-bar-nav aui-bar-light" id="header" style="display: none">
             <div class="aui-title">海大视频小站</div>
+            <a class="aui-pull-right aui-btn" @click="refresh">
+                <span class="aui-iconfont aui-icon-recovery"></span>
+            </a>
         </header>
 
         <page-home :page="page" :width="videoWidth"></page-home>
