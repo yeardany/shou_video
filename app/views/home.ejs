@@ -150,6 +150,16 @@
 <script type="text/javascript" src="/lib/api.js"></script>
 <script type="text/javascript" src="/dist/js/a.js"></script>
 <script type="text/javascript" src="/lib/nep.min.js"></script>
-<script type="text/javascript" src="https://unpkg.com/cachep2p/cachep2p.min.js"></script>
+<script type="text/javascript">
+    var _mtac = {};
+    (function () {
+        var mta = document.createElement("script");
+        mta.src = "http://pingjs.qq.com/h5/stats.js?v2.0.2";
+        mta.setAttribute("name", "MTAH5");
+        mta.setAttribute("sid", "500512753");
+        var s = document.getElementsByTagName("script")[0];
+        s.parentNode.insertBefore(mta, s);
+    })();
+</script>
 </body>
 </html>
