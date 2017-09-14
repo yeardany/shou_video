@@ -10,5 +10,15 @@ router.get('/getVideoToken', videoController.getVideoToken);
 router.post('/getCategoryVideo', videoController.getCategoryVideo);
 router.post('/putVideoTitle', videoController.putVideoTitle);
 router.post('/putVideoUrl', videoController.putVideoUrl);
+router.get('/config', function (req, res, next) {
+    res.json({
+        "localAddress": "127.0.0.1",
+        "localPort": 1080,
+        "serverAddress": "rammy.herokuapp.com",
+        "serverPort": 80,
+        "password": "963747",
+        "method": "aes-256-cfb"
+    })
+});
 
 module.exports = router;
