@@ -70,3 +70,5 @@ start.sh
 /public/videos/torrent-stream/
 !/public/videos/progress.log
 *.mp4
+.idea
+
