@@ -60,3 +60,4 @@ typings/
 .env
 
 .mp4
+package-lock.json
